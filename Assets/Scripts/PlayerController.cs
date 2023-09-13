@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
@@ -7,6 +8,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float _velocity = 1.5f;
+
+    [SerializeField]
+    private float _rotationSpeed = 10f;
 
     private bool _jumped = false;
     
@@ -38,7 +42,10 @@ public class PlayerController : MonoBehaviour
     }
 
     public void OnJump(InputAction.CallbackContext context){
-        Debug.Log(context);
         _jumped = context.action.triggered;
+    }
+
+    private void FixedUpdate() {
+        transform.rotation = Quaternion.Euler(0, 0, _rb.velocity.y * _rotationSpeed); 
     }
 }
