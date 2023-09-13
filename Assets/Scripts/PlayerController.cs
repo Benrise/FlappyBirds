@@ -72,8 +72,8 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player"))
         {
-            _gameOverPanel.SetActive(true);
-            _playerInput.DeactivateInput();
+            // _gameOverPanel.SetActive(true);
+            // _playerInput.DeactivateInput();
         }
     }
 
@@ -88,4 +88,5 @@ public class PlayerController : MonoBehaviour
         _score++;
         _currentScoreText.text = _score.ToString();
     }
+
 }
