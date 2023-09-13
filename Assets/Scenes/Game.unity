@@ -480,7 +480,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0.12, z: 0, w: 0.26}
+    border: {x: 0.06, y: 0.08, z: 0.06, w: 0.14}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.68, y: 0.56}
     newSize: {x: 15, y: 3.0081205}
@@ -568,6 +568,7 @@ GameObject:
   - component: {fileID: 1532944143}
   - component: {fileID: 1532944142}
   - component: {fileID: 1532944144}
+  - component: {fileID: 1532944145}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -658,6 +659,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66f9e380f3d43f41867662a8ac42e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &1532944145
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532944141}
+  m_Enabled: 1
 --- !u!1 &2142147041
 GameObject:
   m_ObjectHideFlags: 0

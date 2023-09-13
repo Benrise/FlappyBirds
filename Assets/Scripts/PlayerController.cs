@@ -30,7 +30,20 @@ public class PlayerController : MonoBehaviour
 
     private PlayerControls _controls;
 
+    [SerializeField]
+    private AudioSource _pipeSound;
 
+    [SerializeField]
+    private AudioSource _wingSound;
+
+    [SerializeField]
+    private AudioSource _dieSound;
+
+    [SerializeField]
+    private AudioSource _hitSound;
+
+    [SerializeField]
+    private Sprite _deadBirdSprite;
 
     [SerializeField]
     private GameObject _gameOverPanel;
@@ -50,6 +63,7 @@ public class PlayerController : MonoBehaviour
     private void Update(){
         if (_jumped){
             _rb.velocity = Vector2.up * _velocity;
+            _wingSound.Play();
         }
     }
 
@@ -72,8 +86,13 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player"))
         {
-            // _gameOverPanel.SetActive(true);
-            // _playerInput.DeactivateInput();
+            GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
+            _gameOverPanel.SetActive(true);
+            _playerInput.DeactivateInput();
+            _dieSound.Play();
+        }
+        else {
+            _hitSound.Play();
         }
     }
 
@@ -81,6 +100,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Pipe"))
         {
             UpdateScore();
+            _pipeSound.Play();
         }
     }
 
