@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
             controlScheme: "KB1", pairWithDevices: Keyboard.current);
         var p2 = PlayerInput.Instantiate(playerPrefab,
             controlScheme: "KB2", pairWithDevices: Keyboard.current);
-        var p3 = PlayerInput.Instantiate(playerPrefab,
-            controlScheme: "KB3", pairWithDevices: Keyboard.current);
-        var p4 = PlayerInput.Instantiate(playerPrefab,
-            controlScheme: "KB4");
+        // var p3 = PlayerInput.Instantiate(playerPrefab,
+        //     controlScheme: "KB3", pairWithDevices: Keyboard.current);
+        // var p4 = PlayerInput.Instantiate(playerPrefab,
+        //     controlScheme: "KB4");
     }    
 
     private void Awake(){
