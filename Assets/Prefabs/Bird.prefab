@@ -79,22 +79,6 @@ MonoBehaviour:
     m_ActionId: b316bb28-e8a8-44f8-9079-e33875431f2d
     m_ActionName: Player/Jump[/Keyboard/anyKey,/Keyboard/space,/Keyboard/upArrow,/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1239046555705739080}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SetControlScheme
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: ace287ff-72c3-47cd-bb61-bdce3e3abe60
-    m_ActionName: Player/Join[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4]
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 2782a2d9-9920-413d-93d6-dcd7a0769454
     m_ActionName: UI/Navigate
@@ -134,6 +118,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: cbd25f25-8b98-4eb2-8ea5-52d8ab024a97
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1239046555705739080}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: EscapePressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dcdac535-4016-4438-8b79-259fea676fe4
+    m_ActionName: UI/OpenMenu[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -179,7 +179,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: -981169550, guid: 1f442109754f0984cb5d35a417091001, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -292,8 +292,9 @@ MonoBehaviour:
   _highScoreText: {fileID: 0}
   _pipeSound: {fileID: 0}
   _wingSound: {fileID: 0}
-  _dieSound: {fileID: 0}
   _hitSound: {fileID: 0}
   _deadBirdSprite: {fileID: 0}
   _gameOverPanel: {fileID: 0}
   _playerNumber: {fileID: 0}
+  _menu: {fileID: 7762489692614747859, guid: faad5dbff3b66d3469b90dfbdc90146f, type: 3}
+  _menuOpened: 0

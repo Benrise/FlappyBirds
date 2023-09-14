@@ -72,7 +72,10 @@ public class PlayerConfiguration
     {
         PlayerIndex = idx;
         PlayerBirdPrefab = prefab;
+        isAlive = true;
     }
+
+    public bool isAlive { get; set; }
 
     public int PlayerIndex { get; set; }
 

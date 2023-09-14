@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-
+using System.Collections;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
@@ -15,19 +15,13 @@ public class PlayerController : MonoBehaviour
     private float _rotationSpeed = 10f;
 
     [SerializeField]
-    private TMP_Text _currentScoreText;
-
-    [SerializeField]
-    private TMP_Text _highScoreText;
+    private TMP_Text _scoreText;
 
     [SerializeField]
     private AudioSource _pipeSound;
 
     [SerializeField]
     private AudioSource _wingSound;
-
-    [SerializeField]
-    private AudioSource _dieSound;
 
     [SerializeField]
     private AudioSource _hitSound;
@@ -51,16 +45,23 @@ public class PlayerController : MonoBehaviour
 
     private PlayerControls _controls;
 
+    private bool _isDead = false;
+
+    private GameObject _endGameMenu;
+
     private void Awake(){
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
         _controls = new PlayerControls();
+
+        _rb = GetComponent<Rigidbody2D>();
+        _playerInput = GetComponent<PlayerInput>();
+        _endGameMenu = GameObject.Find("EndGameMenu");
+        _scoreText.text = _score.ToString();
+        _playerNumber.text = _playerInput.playerIndex.ToString();
     }
 
     private void Start(){
-        _rb = GetComponent<Rigidbody2D>();
-        _playerInput = GetComponent<PlayerInput>();
-        _currentScoreText.text = _score.ToString();
-        _playerNumber.text = _playerInput.playerIndex.ToString();
+        _endGameMenu.SetActive(false);
     }
 
     private void Update(){
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = Vector2.up * _velocity;
             _wingSound.Play();
         }
+
     }
 
     public void OnJump(InputAction.CallbackContext context){
@@ -79,15 +81,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (!other.gameObject.CompareTag("Player")){
+        if (!other.gameObject.CompareTag("Player") && !_isDead){
+            _isDead = true;
             GetComponent<Animator>().enabled = false;
             GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
             _gameOverPanel.SetActive(true);
             _playerInput.DeactivateInput();
-            _dieSound.Play();
-        }
-        else {
             _hitSound.Play();
+            PlayerConfigurationManager.Instance.playerConfigs[_playerInput.playerIndex].isAlive = false;
+            CheckForLivingPlayers();
         }
     }
 
@@ -98,9 +100,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void UpdateScore(){
+    private void UpdateScore(){
         _score++;
-        _currentScoreText.text = _score.ToString();
+        _scoreText.text = _score.ToString();
     }
 
+    private void CheckForLivingPlayers(){
+       foreach (var playerConfiguration in PlayerConfigurationManager.Instance.playerConfigs)
+        {
+            if (playerConfiguration.isAlive)
+                break; 
+            else
+                StartCoroutine(OpenEndGameMenu()); 
+        } 
+    }
+
+    private IEnumerator OpenEndGameMenu()
+    {
+        yield return new WaitForSeconds(3.2f);
+        _endGameMenu.SetActive(true);
+    }
 }
+

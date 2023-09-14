@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 134620059}
   - component: {fileID: 134620058}
   m_Layer: 0
-  m_Name: Background
+  m_Name: City
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1702,7 +1702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1837618657}
   m_Layer: 0
-  m_Name: Level
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

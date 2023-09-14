@@ -18,14 +18,14 @@ public class PlayerSpawner : MonoBehaviour
                 var prefab = playerConfig.PlayerBirdPrefab;
                 var scheme = "KB" + (playerConfig.PlayerIndex + 1); 
                 
-                if (playerConfig.PlayerIndex != 3){
+                if (playerConfig.PlayerIndex != 3) {
                     PlayerInput.Instantiate(
                     prefab, 
                     controlScheme: scheme,
                     pairWithDevices: Keyboard.current
                     ); 
                 }
-                else{
+                else {
                     PlayerInput.Instantiate(
                     prefab, 
                     controlScheme: scheme,
@@ -40,5 +40,4 @@ public class PlayerSpawner : MonoBehaviour
     {
         Debug.Log("Player " + pi.playerIndex + " joined, using " + pi.currentControlScheme);
     }
-
 }
