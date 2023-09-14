@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     private float _followSpeed = 2f;
 
     [SerializeField]
-    private float _yOffset =-5f;
+    private float _yOffset =-6f;
 
     public Transform target;
 

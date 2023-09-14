@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player")){
+            GetComponent<Animator>().enabled = false;
             GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
             _gameOverPanel.SetActive(true);
             _playerInput.DeactivateInput();
