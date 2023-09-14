@@ -20,16 +20,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private TMP_Text _highScoreText;
 
-    private int _score;
-
-    private bool _jumped = false;
-    
-    private Rigidbody2D _rb;
-
-    private PlayerInput _playerInput;
-
-    private PlayerControls _controls;
-
     [SerializeField]
     private AudioSource _pipeSound;
 
@@ -48,6 +38,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _gameOverPanel;
 
+    [SerializeField]
+    private TMP_Text _playerNumber;
+
+    private int _score;
+
+    private bool _jumped = false;
+    
+    private Rigidbody2D _rb;
+
+    private PlayerInput _playerInput;
+
+    private PlayerControls _controls;
+
     private void Awake(){
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
         _controls = new PlayerControls();
@@ -56,8 +59,8 @@ public class PlayerController : MonoBehaviour
     private void Start(){
         _rb = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
-
         _currentScoreText.text = _score.ToString();
+        _playerNumber.text = _playerInput.playerIndex.ToString();
     }
 
     private void Update(){
@@ -67,25 +70,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnEnable(){
-        _controls.Enable();
-    }
-
-    private void OnDisable(){
-        _controls.Disable();
-    }
-
     public void OnJump(InputAction.CallbackContext context){
         _jumped = context.action.triggered;
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate(){
         transform.rotation = Quaternion.Euler(0, 0, _rb.velocity.y * _rotationSpeed); 
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (!other.gameObject.CompareTag("Player"))
-        {
+        if (!other.gameObject.CompareTag("Player")){
             GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
             _gameOverPanel.SetActive(true);
             _playerInput.DeactivateInput();
@@ -97,8 +91,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Pipe"))
-        {
+        if (other.gameObject.CompareTag("Pipe")){
             UpdateScore();
             _pipeSound.Play();
         }

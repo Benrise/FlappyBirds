@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Flap
+  m_Name: Player1
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -24,9 +24,9 @@ AnimationClip:
       value: {fileID: -128444502, guid: 9ecf168895d09b443967c5468ff2f783, type: 3}
     - time: 0.16666667
       value: {fileID: 721519152, guid: 9ecf168895d09b443967c5468ff2f783, type: 3}
-    - time: 0.33333334
+    - time: 0.41666666
       value: {fileID: -71918030, guid: 9ecf168895d09b443967c5468ff2f783, type: 3}
-    - time: 0.6666667
+    - time: 0.5833333
       value: {fileID: 721519152, guid: 9ecf168895d09b443967c5468ff2f783, type: 3}
     - time: 0.8333333
       value: {fileID: -128444502, guid: 9ecf168895d09b443967c5468ff2f783, type: 3}

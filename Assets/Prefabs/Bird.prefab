@@ -94,6 +94,46 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ace287ff-72c3-47cd-bb61-bdce3e3abe60
     m_ActionName: Player/Join[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2782a2d9-9920-413d-93d6-dcd7a0769454
+    m_ActionName: UI/Navigate
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8907b488-e82f-45c1-b077-6e9e3e1f311b
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8c439052-0fa8-4d05-86df-4c4155a80eac
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 581356ad-8792-4dd0-a1ba-cc1f90caab65
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7a14a6cb-69cf-40b1-bc3a-313f554c223c
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 810b90c0-b407-4ef7-9916-25256323c1fc
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1f7be152-928c-4be0-827f-3ab57f2e81fe
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ae11e1a6-2a75-43be-9ba1-28cb020abe60
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3f856817-e04e-4e2e-8260-3e09a7af92eb
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cbd25f25-8b98-4eb2-8ea5-52d8ab024a97
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -140,7 +180,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -128444502, guid: 9ecf168895d09b443967c5468ff2f783, type: 3}
+  m_Sprite: {fileID: -981169550, guid: 1f442109754f0984cb5d35a417091001, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -248,3 +288,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _velocity: 1.5
   _rotationSpeed: 10
+  _currentScoreText: {fileID: 0}
+  _highScoreText: {fileID: 0}
+  _pipeSound: {fileID: 0}
+  _wingSound: {fileID: 0}
+  _dieSound: {fileID: 0}
+  _hitSound: {fileID: 0}
+  _deadBirdSprite: {fileID: 0}
+  _gameOverPanel: {fileID: 0}
+  _playerNumber: {fileID: 0}

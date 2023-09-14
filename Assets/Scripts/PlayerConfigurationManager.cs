@@ -1,90 +1,80 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Linq;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 using UnityEngine.UI;
-
+using UnityEngine.InputSystem;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
+    public List<PlayerConfiguration> playerConfigs;
 
-    GameObject playerPrefab;
-
-    private List<PlayerConfiguration> playerConfigs;
-    
     public static PlayerConfigurationManager Instance { get; private set; }
-    
-    private int maxPlayers;
-    
-    private void Awake(){
 
-        if(Instance != null)
-        {
-            Debug.Log("[Singleton] Trying to instantiate a seccond instance of a singleton class.");
-        }
-        else
+    [SerializeField]
+    private Button _startButton;
+
+    private void Awake()
+    {
+        if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(Instance);
+            DontDestroyOnLoad(Instance); // Экземпляр не будет уничтожен при загрузке новой сцены
             playerConfigs = new List<PlayerConfiguration>();
-            maxPlayers = GetComponent<PlayerInputManager>().maxPlayerCount;
-            PlayerInputManager playerInputManager = GetComponent<PlayerInputManager>();
-
-            if (playerInputManager != null){
-                playerPrefab = playerInputManager.playerPrefab;
-            }
         }
-    }
 
-     private void Start(){
-
-        //Здесь нужно циклом проходиться
-        var p1 = PlayerInput.Instantiate(playerPrefab,
-            controlScheme: "KB1", pairWithDevices: Keyboard.current);
-        var p2 = PlayerInput.Instantiate(playerPrefab,
-            controlScheme: "KB2", pairWithDevices: Keyboard.current);
-        var p3 = PlayerInput.Instantiate(playerPrefab,
-            controlScheme: "KB3", pairWithDevices: Keyboard.current);
-        var p4 = PlayerInput.Instantiate(playerPrefab,
-            controlScheme: "KB4", pairWithDevices: Mouse.current);
-    }
-
-    public void HandlePlayerJoin(PlayerInput pi)
-    {
-        Debug.Log("Player " + pi.playerIndex + " joined, using " + pi.currentControlScheme);
-
-        if(!playerConfigs.Any(p => p.PlayerIndex == pi.playerIndex))
+        if (_startButton != null && _startButton.GetComponent<Button>() != null)
         {
-            playerConfigs.Add(new PlayerConfiguration(pi));
+            _startButton.onClick.AddListener(LoadGameScene);
         }
+
+        UpdateStartButtonInteractability();
     }
 
-    public List<PlayerConfiguration> GetPlayerConfigs()
+    public void UpdateStartButtonInteractability()
     {
-        return playerConfigs;
+        _startButton.interactable = playerConfigs.Any();
     }
 
-    public void ReadyPlayer(int index)
+    private void LoadGameScene()
     {
-        playerConfigs[index].isReady = true;
-        if (playerConfigs.Count == maxPlayers && playerConfigs.All(p => p.isReady == true))
+        SceneManager.LoadScene("Game");
+    }
+
+    public void HandlePlayerJoin(PlayerInput playerInput)
+    {
+        Debug.Log("Player " + playerInput.playerIndex + " joined, using " + playerInput.currentControlScheme);
+    }
+
+    public void AddPlayerConfiguration(PlayerConfiguration playerConfig)
+    {
+        playerConfigs.Add(playerConfig);
+    }
+
+    public void RemovePlayerConfiguration(int playerIndex)
+    {
+        PlayerConfiguration playerToRemove = playerConfigs.FirstOrDefault(config => config.PlayerIndex == playerIndex);
+        if (playerToRemove != null)
         {
-            SceneManager.LoadScene("SampleScene");
+            playerConfigs.Remove(playerToRemove);
         }
+    }
+
+    public PlayerConfiguration GetPlayerConfigByIndex(int playerIndex)
+    {
+        return playerConfigs.FirstOrDefault(config => config.PlayerIndex == playerIndex);
     }
 }
 
 public class PlayerConfiguration
 {
-    public PlayerConfiguration(PlayerInput pi)
+    public PlayerConfiguration(int idx, GameObject prefab)
     {
-        PlayerIndex = pi.playerIndex;
-        Input = pi;
+        PlayerIndex = idx;
+        PlayerBirdPrefab = prefab;
     }
 
-    public PlayerInput Input { get; private set; }
-    public int PlayerIndex { get; private set; }
-    public bool isReady { get; set; }
-    public Sprite Bird { get; set; }
+    public int PlayerIndex { get; set; }
+
+    public GameObject PlayerBirdPrefab { get; set; }
 }
