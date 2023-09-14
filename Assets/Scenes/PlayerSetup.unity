@@ -1872,75 +1872,108 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &8503143924775599716
-PrefabInstance:
+--- !u!1 &96176254106683820
+GameObject:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4180284176186931592}
+  - component: {fileID: 6201806700798095253}
+  - component: {fileID: 5304349166137365491}
+  m_Layer: 0
+  m_Name: PlayerConfigurationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4180284176186931592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96176254106683820}
   serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2310348863177757169, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_SplitScreen
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2310348863177757169, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_MaxPlayerCount
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4584076386255564183, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: _startButton
-      value: 
-      objectReference: {fileID: 446738594}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 571.459
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 282.72147
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.312129
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5477052343449798636, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8598659844697651144, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
-      propertyPath: m_Name
-      value: PlayerConfigurationManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e0a62c35729b6a346b2b5bb0874bd839, type: 3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 571.459, y: 282.72147, z: -4.312129}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5304349166137365491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96176254106683820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d0f512772a9bf459974281a7d0a4d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startButton: {fileID: 446738594}
+--- !u!114 &6201806700798095253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96176254106683820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 2
+  m_MaxPlayerCount: 4
+  m_AllowJoining: 1
+  m_JoinBehavior: 2
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5304349166137365491}
+        m_TargetAssemblyTypeName: PlayerConfigurationManager, Assembly-CSharp
+        m_MethodName: HandlePlayerJoin
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e4b0519a-cb07-421e-8231-984ac5887f6c
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 935940857649840556, guid: 41df61d5097294e49b8822c1dd556942, type: 3}
+  m_SplitScreen: 1
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1949,4 +1982,4 @@ SceneRoots:
   - {fileID: 472753428}
   - {fileID: 1837618657}
   - {fileID: 713431957}
-  - {fileID: 8503143924775599716}
+  - {fileID: 4180284176186931592}
