@@ -105,14 +105,20 @@ public class PlayerController : MonoBehaviour
         _scoreText.text = _score.ToString();
     }
 
-    private void CheckForLivingPlayers(){
-       foreach (var playerConfiguration in PlayerConfigurationManager.Instance.playerConfigs)
+    private void CheckForLivingPlayers()
+    {
+        int livingPlayersCount = 0;
+
+        foreach (var playerConfiguration in PlayerConfigurationManager.Instance.playerConfigs)
         {
             if (playerConfiguration.isAlive)
-                break; 
-            else
-                StartCoroutine(OpenEndGameMenu()); 
-        } 
+            {
+                livingPlayersCount++;
+            }
+        }
+
+        if (livingPlayersCount == 0)
+            StartCoroutine(OpenEndGameMenu());
     }
 
     private IEnumerator OpenEndGameMenu()
