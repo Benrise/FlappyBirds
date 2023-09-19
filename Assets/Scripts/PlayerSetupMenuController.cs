@@ -11,6 +11,9 @@ public class PlayerSetupMenuController : MonoBehaviour
     [SerializeField]
     private GameObject[] playerBirdPrefabs;
 
+    [SerializeField]
+    private int playersLives = 3;
+
     private void Awake()
     {
         for (int i = 0; i < addPlayerButtons.Length; i++)
@@ -37,7 +40,7 @@ public class PlayerSetupMenuController : MonoBehaviour
             }
             else
             {
-                configManager.AddPlayerConfiguration(new PlayerConfiguration(playerIndex, playerBirdPrefab));
+                configManager.AddPlayerConfiguration(new PlayerConfiguration(playerIndex, playerBirdPrefab, playersLives));
                 button.GetComponent<Image>().color = Color.grey;
 
             }

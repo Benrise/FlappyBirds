@@ -19,7 +19,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(Instance); // Экземпляр не будет уничтожен при загрузке новой сцены
+            DontDestroyOnLoad(Instance); // Экземпляр класса не будет уничтожен при загрузке новой сцены
             playerConfigs = new List<PlayerConfiguration>();
         }
 
@@ -68,12 +68,15 @@ public class PlayerConfigurationManager : MonoBehaviour
 
 public class PlayerConfiguration
 {
-    public PlayerConfiguration(int idx, GameObject prefab)
+    public PlayerConfiguration(int idx, GameObject prefab, int lives)
     {
         PlayerIndex = idx;
         PlayerBirdPrefab = prefab;
         isAlive = true;
+        Lives = lives;
     }
+
+    public int Lives { get; set; }
 
     public bool isAlive { get; set; }
 

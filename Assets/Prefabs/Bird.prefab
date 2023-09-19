@@ -180,7 +180,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -981169550, guid: 1f442109754f0984cb5d35a417091001, type: 3}
+  m_Sprite: {fileID: 841757115, guid: 1f442109754f0984cb5d35a417091001, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -288,13 +288,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _velocity: 1.5
   _rotationSpeed: 10
-  _currentScoreText: {fileID: 0}
-  _highScoreText: {fileID: 0}
+  _scoreText: {fileID: 0}
   _pipeSound: {fileID: 0}
   _wingSound: {fileID: 0}
   _hitSound: {fileID: 0}
   _deadBirdSprite: {fileID: 0}
   _gameOverPanel: {fileID: 0}
   _playerNumber: {fileID: 0}
-  _menu: {fileID: 7762489692614747859, guid: faad5dbff3b66d3469b90dfbdc90146f, type: 3}
-  _menuOpened: 0

@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
     private AudioSource _hitSound;
 
     [SerializeField]
+    private AudioSource _deathSound;
+
+    [SerializeField]
     private Sprite _deadBirdSprite;
 
     [SerializeField]
@@ -49,6 +52,16 @@ public class PlayerController : MonoBehaviour
 
     private GameObject _endGameMenu;
 
+    private PlayerConfiguration _player;
+
+    public HealthDisplay healthDisplay;
+
+    public Material redPlayerMaterial;
+
+    private SpriteRenderer _spriteRenderer;
+    private Material _defaultMaterial;
+    private GameObject _birdObject;
+
     private void Awake(){
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
         _controls = new PlayerControls();
@@ -58,6 +71,12 @@ public class PlayerController : MonoBehaviour
         _endGameMenu = GameObject.Find("EndGameMenu");
         _scoreText.text = _score.ToString();
         _playerNumber.text = _playerInput.playerIndex.ToString();
+        _player = PlayerConfigurationManager.Instance.playerConfigs[_playerInput.playerIndex];
+        healthDisplay.maxHealth = _player.Lives;
+
+        _birdObject = transform.Find("Bird").gameObject;
+        _spriteRenderer = _birdObject.GetComponent<SpriteRenderer>();
+        _defaultMaterial = _spriteRenderer.material;
     }
 
     private void Start(){
@@ -82,14 +101,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player") && !_isDead){
-            _isDead = true;
-            GetComponent<Animator>().enabled = false;
-            GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
-            _gameOverPanel.SetActive(true);
-            _playerInput.DeactivateInput();
             _hitSound.Play();
-            PlayerConfigurationManager.Instance.playerConfigs[_playerInput.playerIndex].isAlive = false;
-            CheckForLivingPlayers();
+            _player.Lives--;
+            healthDisplay.TakeDamage();
+            Debug.Log(_player.Lives);
+            _spriteRenderer.material = redPlayerMaterial;
+            StartCoroutine(RestorePlayerColor());
+            if (_player.Lives == 0) {
+                GetComponent<Animator>().enabled = false;
+                GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
+                _player.isAlive = false;
+                _gameOverPanel.SetActive(true);
+                _playerInput.DeactivateInput();
+                _isDead = true;
+                CheckForLivingPlayers();
+                _deathSound.Play();
+            }
         }
     }
 
@@ -125,6 +152,13 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(3.2f);
         _endGameMenu.SetActive(true);
+    }
+
+    private IEnumerator RestorePlayerColor()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        _spriteRenderer.material = _defaultMaterial;
     }
 }
 
