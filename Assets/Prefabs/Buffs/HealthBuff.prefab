@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8457050173844036812}
   m_Layer: 0
   m_Name: HealthBuff
-  m_TagString: Untagged
+  m_TagString: HealthBuff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

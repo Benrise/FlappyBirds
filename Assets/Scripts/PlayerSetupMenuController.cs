@@ -12,7 +12,7 @@ public class PlayerSetupMenuController : MonoBehaviour
     private GameObject[] playerBirdPrefabs;
 
     [SerializeField]
-    private int playersLives = 3;
+    private int playersMaxHP = 3;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class PlayerSetupMenuController : MonoBehaviour
             }
             else
             {
-                configManager.AddPlayerConfiguration(new PlayerConfiguration(playerIndex, playerBirdPrefab, playersLives));
+                configManager.AddPlayerConfiguration(new PlayerConfiguration(playerIndex, playerBirdPrefab, playersMaxHP));
                 button.GetComponent<Image>().color = Color.grey;
 
             }

@@ -8,6 +8,8 @@ TagManager:
   - PipePoint
   - Ground
   - ShieldBuff
+  - HealthBuff
+  - EnergyBuff
   layers:
   - Default
   - TransparentFX

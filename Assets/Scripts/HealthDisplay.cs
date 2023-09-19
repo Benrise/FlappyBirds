@@ -25,6 +25,15 @@ public class HealthDisplay : MonoBehaviour
         }
     }
 
+    public void Heal()
+    {
+        if (currentHealth > 0)
+        {
+            currentHealth++; 
+            UpdateHealthDisplay();
+        }
+    }
+
     public void EraseLives()
     {
         currentHealth = 0;

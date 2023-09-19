@@ -33,6 +33,16 @@ public class PlayerController : MonoBehaviour
     private AudioSource _hawkSound;
 
     [SerializeField]
+    private AudioSource _healSound;
+
+    [SerializeField]
+    private AudioSource _shieldSound;
+
+    [SerializeField]
+    private AudioSource _speedSound;
+
+
+    [SerializeField]
     private Sprite _deadBirdSprite;
 
     [SerializeField]
@@ -59,11 +69,19 @@ public class PlayerController : MonoBehaviour
 
     public HealthDisplay healthDisplay;
 
-    public Material redPlayerMaterial;
+    public Material damagePlayerMaterial;
+
+    public Material healPlayerMaterial;
+
+    public Material shieldPlayerMaterial;
 
     private SpriteRenderer _spriteRenderer;
 
     private Material _defaultMaterial;
+
+    private bool _isShieldActive = false;
+    private float _shieldDuration = 6f;
+    private float _shieldTimer = 0f;
 
     private void Awake(){
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
@@ -105,6 +123,19 @@ public class PlayerController : MonoBehaviour
             if (!_isDead)
                 KillPlayer(killedByHawk: true);
         }
+
+        if (_isShieldActive)
+        {
+            _shieldTimer += Time.deltaTime;
+
+            if (_shieldTimer >= _shieldDuration)
+            {
+                DeactivateShield();
+            }
+        }
+
+
+
     }
 
     public void OnJump(InputAction.CallbackContext context){
@@ -133,6 +164,16 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PipePoint")){
             UpdateScore();
             _pipeSound.Play();
+        }
+
+        if (other.gameObject.CompareTag("HealthBuff") && !_isDead){
+            HealPlayer();
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("ShieldBuff") && !_isShieldActive)
+        {
+            ActivateShield();
+            Destroy(other.gameObject); 
         }
     }
 
@@ -164,9 +205,11 @@ public class PlayerController : MonoBehaviour
 
     private void KillPlayer(bool killedByHawk = false){
         if (killedByHawk){
+            DeactivateShield();
             _hawkSound.Play();
         }
         else{
+            DeactivateShield();
             _hitSound.Play();
             _deathSound.Play();
         }
@@ -182,12 +225,41 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HitPlayer(){
-        _hitSound.Play();
-        _spriteRenderer.material = redPlayerMaterial;
-        StartCoroutine(RestorePlayerColor());
-        _player.Lives -= 1;
-        healthDisplay.TakeDamage();
+        if (!_isShieldActive){
+            _hitSound.Play();
+            _spriteRenderer.material = damagePlayerMaterial;
+            StartCoroutine(RestorePlayerColor());
+            _player.Lives -= 1;
+            healthDisplay.TakeDamage();
+        }
     }
+
+    private void HealPlayer(){
+        if (_player.Lives != _player.MaxLives){
+            _healSound.Play();
+            _spriteRenderer.material = healPlayerMaterial;
+            StartCoroutine(RestorePlayerColor());
+            _player.Lives += 1;
+            healthDisplay.Heal();
+        }
+    }
+
+    private void ActivateShield()
+    {
+        _isShieldActive = true;
+        _shieldTimer = 0f;
+        _shieldSound.Play();
+        StartCoroutine(ShieldBlink()); 
+    }
+
+    private void DeactivateShield()
+    {
+        _isShieldActive = false;
+        StopCoroutine(ShieldBlink());
+        _spriteRenderer.material = _defaultMaterial; 
+    }
+
+
 
     private IEnumerator RestorePlayerColor()
     {
@@ -201,6 +273,17 @@ public class PlayerController : MonoBehaviour
         GetComponent<Collider2D>().isTrigger = true;
         yield return new WaitForSeconds(duration);
         GetComponent<Collider2D>().isTrigger = false;
+    }
+
+    private IEnumerator ShieldBlink()
+    {
+        while (_isShieldActive)
+        {
+            _spriteRenderer.material = shieldPlayerMaterial;
+            yield return new WaitForSeconds(0.2f); 
+            _spriteRenderer.material = _defaultMaterial; 
+            yield return new WaitForSeconds(0.2f); 
+        }
     }
 }
 

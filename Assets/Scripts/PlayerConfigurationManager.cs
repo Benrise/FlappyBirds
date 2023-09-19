@@ -68,15 +68,17 @@ public class PlayerConfigurationManager : MonoBehaviour
 
 public class PlayerConfiguration
 {
-    public PlayerConfiguration(int idx, GameObject prefab, int lives)
+    public PlayerConfiguration(int idx, GameObject prefab, int maxLives)
     {
         PlayerIndex = idx;
         PlayerBirdPrefab = prefab;
         isAlive = true;
-        Lives = lives;
+        Lives = maxLives;
     }
 
     public int Lives { get; set; }
+
+    public int MaxLives { get; set; }
 
     public bool isAlive { get; set; }
 
