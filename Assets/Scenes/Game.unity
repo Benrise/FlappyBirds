@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 810007177}
   - component: {fileID: 810007178}
   m_Layer: 0
-  m_Name: PipeSpawner
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
