@@ -362,7 +362,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(delay);
 
             Vector3 spawnPosition = transform.position;
-            spawnPosition.y -= 0.15f;
+            spawnPosition.y -= 0.2f;
             var poop = Instantiate(_poopPrefab, spawnPosition, Quaternion.identity);
 
             Destroy(poop, 3f);
