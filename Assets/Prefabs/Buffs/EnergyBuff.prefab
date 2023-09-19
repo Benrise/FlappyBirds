@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3219169219219247022}
   - component: {fileID: 8457050173844036812}
   m_Layer: 0
-  m_Name: SpeedBuff
+  m_Name: EnergyBuff
   m_TagString: EnergyBuff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1242018549, guid: 1f442109754f0984cb5d35a417091001, type: 3}
+  m_Sprite: {fileID: -170016007, guid: 1f442109754f0984cb5d35a417091001, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,7 +121,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.13, y: 0.1}
+    oldSize: {x: 0.09, y: 0.1}
     newSize: {x: 0.09, y: 0.11}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -41,12 +41,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private AudioSource _speedSound;
 
-
     [SerializeField]
     private Sprite _deadBirdSprite;
 
     [SerializeField]
     private GameObject _gameOverPanel;
+
+    [SerializeField]
+    private GameObject _poopPrefab;
 
     [SerializeField]
     private TMP_Text _playerNumber;
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
     private float _shieldTimer = 0f;
 
     private void Awake(){
+        Random.InitState((int)System.DateTime.Now.Ticks);
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
         _controls = new PlayerControls();
 
@@ -97,10 +100,12 @@ public class PlayerController : MonoBehaviour
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _defaultMaterial = _spriteRenderer.material;
+
     }
 
     private void Start(){
         _endGameMenu.SetActive(false);
+        StartCoroutine(SpawnPoop());
     }
 
     private void Update(){
@@ -133,9 +138,6 @@ public class PlayerController : MonoBehaviour
                 DeactivateShield();
             }
         }
-
-
-
     }
 
     public void OnJump(InputAction.CallbackContext context){
@@ -170,10 +172,18 @@ public class PlayerController : MonoBehaviour
             HealPlayer();
             Destroy(other.gameObject);
         }
+
         if (other.gameObject.CompareTag("ShieldBuff") && !_isShieldActive)
         {
             ActivateShield();
             Destroy(other.gameObject); 
+        }
+
+        if (other.gameObject.CompareTag("Poop")){
+            HitPlayer();
+            Destroy(other.gameObject);
+            if (_player.Lives == 0)
+                KillPlayer();
         }
     }
 
@@ -284,6 +294,23 @@ public class PlayerController : MonoBehaviour
             _spriteRenderer.material = _defaultMaterial; 
             yield return new WaitForSeconds(0.2f); 
         }
+    }
+
+    private IEnumerator SpawnPoop()
+    {
+        while (true)
+        {
+            float delay = Random.Range(3f, 10f);
+            yield return new WaitForSeconds(delay);
+
+            Vector3 spawnPosition = transform.position;
+            spawnPosition.y -= 0.15f;
+            var poop = Instantiate(_poopPrefab, spawnPosition, Quaternion.identity);
+
+            Destroy(poop, 3f);
+
+        }
+        
     }
 }
 

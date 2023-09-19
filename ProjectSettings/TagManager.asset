@@ -10,6 +10,7 @@ TagManager:
   - ShieldBuff
   - HealthBuff
   - EnergyBuff
+  - Poop
   layers:
   - Default
   - TransparentFX
