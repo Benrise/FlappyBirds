@@ -228,7 +228,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0.65
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 10d2be97851059742aeb80c9a53843cd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -237,7 +237,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!70 &6534873876378464051
 CapsuleCollider2D:
@@ -248,7 +248,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 2471095352127289363}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 10d2be97851059742aeb80c9a53843cd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -292,6 +292,10 @@ MonoBehaviour:
   _pipeSound: {fileID: 0}
   _wingSound: {fileID: 0}
   _hitSound: {fileID: 0}
+  _deathSound: {fileID: 0}
+  _hawkSound: {fileID: 0}
   _deadBirdSprite: {fileID: 0}
   _gameOverPanel: {fileID: 0}
   _playerNumber: {fileID: 0}
+  healthDisplay: {fileID: 0}
+  redPlayerMaterial: {fileID: 0}

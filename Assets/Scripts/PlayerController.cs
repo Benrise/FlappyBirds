@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private AudioSource _deathSound;
+    
+    [SerializeField]
+    private AudioSource _hawkSound;
 
     [SerializeField]
     private Sprite _deadBirdSprite;
@@ -86,11 +89,21 @@ public class PlayerController : MonoBehaviour
         if (_jumped){
             _rb.velocity = Vector2.up * _velocity;
             _wingSound.Play();
+            _jumped = false;
         }
 
         if (transform.position.y < -10f)
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
+        }
+
+        if (transform.position.y < -1f){
+            if (!_isDead)
+                KillPlayer();
+        }
+        if (transform.position.y > 4f){
+            if (!_isDead)
+                KillPlayer(killedByHawk: true);
         }
     }
 
@@ -104,31 +117,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player") && !_isDead){
-            _hitSound.Play();
-            _spriteRenderer.material = redPlayerMaterial;
-            StartCoroutine(RestorePlayerColor());
-            _player.Lives -= 1;
-            healthDisplay.TakeDamage();
             if (_player.Lives == 0 || other.gameObject.CompareTag("Ground")) {
-                GetComponent<Animator>().enabled = false;
-                GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
-                _player.isAlive = false;
-                _gameOverPanel.SetActive(true);
-                _playerInput.DeactivateInput();
-                _isDead = true;
-                CheckForLivingPlayers();
-                _deathSound.Play();
-                healthDisplay.Kill();
-                GetComponent<Collider2D>().isTrigger = true;
+                KillPlayer();
             }
         }
-
         if (other.gameObject.CompareTag("Pipe") && !_isDead){
+            HitPlayer();
             StartCoroutine(PipeCollision(2f));
-        }
-
-
-        
+        }    
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -149,8 +145,7 @@ public class PlayerController : MonoBehaviour
 
         foreach (var playerConfiguration in PlayerConfigurationManager.Instance.playerConfigs)
         {
-            if (playerConfiguration.isAlive)
-            {
+            if (playerConfiguration.isAlive){
                 livingPlayersCount++;
             }
         }
@@ -161,8 +156,34 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator OpenEndGameMenu()
     {
-        yield return new WaitForSeconds(3.2f);
+        yield return new WaitForSeconds(3f);
         _endGameMenu.SetActive(true);
+    }
+
+    private void KillPlayer(bool killedByHawk = false){
+        if (killedByHawk){
+            _hawkSound.Play();
+        }
+        else{
+            _hitSound.Play();
+            _deathSound.Play();
+        }
+        GetComponent<Animator>().enabled = false;
+        GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
+        _player.isAlive = false;
+        _gameOverPanel.SetActive(true);
+        _playerInput.DeactivateInput();
+        _isDead = true;
+        CheckForLivingPlayers();
+        healthDisplay.EraseLives();
+    }
+
+    private void HitPlayer(){
+        _hitSound.Play();
+        _spriteRenderer.material = redPlayerMaterial;
+        StartCoroutine(RestorePlayerColor());
+        _player.Lives -= 1;
+        healthDisplay.TakeDamage();
     }
 
     private IEnumerator RestorePlayerColor()

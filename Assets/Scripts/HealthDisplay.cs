@@ -25,7 +25,7 @@ public class HealthDisplay : MonoBehaviour
         }
     }
 
-    public void Kill()
+    public void EraseLives()
     {
         currentHealth = 0;
         UpdateHealthDisplay();
