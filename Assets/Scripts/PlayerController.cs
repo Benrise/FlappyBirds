@@ -88,6 +88,10 @@ public class PlayerController : MonoBehaviour
             _wingSound.Play();
         }
 
+        if (transform.position.y < -10f)
+        {
+            Destroy(gameObject); 
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context){
@@ -101,11 +105,11 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player") && !_isDead){
             _hitSound.Play();
-            _player.Lives--;
-            healthDisplay.TakeDamage();
             _spriteRenderer.material = redPlayerMaterial;
             StartCoroutine(RestorePlayerColor());
-            if (_player.Lives == 0) {
+            _player.Lives -= 1;
+            healthDisplay.TakeDamage();
+            if (_player.Lives == 0 || other.gameObject.CompareTag("Ground")) {
                 GetComponent<Animator>().enabled = false;
                 GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
                 _player.isAlive = false;
@@ -114,12 +118,21 @@ public class PlayerController : MonoBehaviour
                 _isDead = true;
                 CheckForLivingPlayers();
                 _deathSound.Play();
+                healthDisplay.Kill();
+                GetComponent<Collider2D>().isTrigger = true;
             }
         }
+
+        if (other.gameObject.CompareTag("Pipe") && !_isDead){
+            StartCoroutine(PipeCollision(2f));
+        }
+
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Pipe")){
+        if (other.gameObject.CompareTag("PipePoint")){
             UpdateScore();
             _pipeSound.Play();
         }
@@ -157,6 +170,13 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         _spriteRenderer.material = _defaultMaterial;
+    }
+
+    private IEnumerator PipeCollision(float duration)
+    {
+        GetComponent<Collider2D>().isTrigger = true;
+        yield return new WaitForSeconds(duration);
+        GetComponent<Collider2D>().isTrigger = false;
     }
 }
 

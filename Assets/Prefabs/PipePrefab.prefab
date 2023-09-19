@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5732110053838021492}
   m_Layer: 0
   m_Name: Top
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 4405139896008947795}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 5990113706610210468}
   m_Layer: 0
   m_Name: PipePrefab
-  m_TagString: Pipe
+  m_TagString: PipePoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

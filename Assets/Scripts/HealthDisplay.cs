@@ -25,6 +25,12 @@ public class HealthDisplay : MonoBehaviour
         }
     }
 
+    public void Kill()
+    {
+        currentHealth = 0;
+        UpdateHealthDisplay();
+    }
+
     private void UpdateHealthDisplay()
     {
         for (int i = 0; i < heartImages.Length; i++)
