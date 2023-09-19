@@ -73,6 +73,7 @@ public class PlayerConfiguration
         PlayerIndex = idx;
         PlayerBirdPrefab = prefab;
         isAlive = true;
+        MaxLives = maxLives;
         Lives = maxLives;
     }
 

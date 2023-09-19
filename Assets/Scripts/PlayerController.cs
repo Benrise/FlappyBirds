@@ -235,10 +235,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HealPlayer(){
+        _healSound.Play();
+        _spriteRenderer.material = healPlayerMaterial;
+        StartCoroutine(RestorePlayerColor());
         if (_player.Lives != _player.MaxLives){
-            _healSound.Play();
-            _spriteRenderer.material = healPlayerMaterial;
-            StartCoroutine(RestorePlayerColor());
             _player.Lives += 1;
             healthDisplay.Heal();
         }
