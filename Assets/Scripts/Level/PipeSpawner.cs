@@ -11,7 +11,7 @@ public class PipeSpawner : MonoBehaviour
     private float _heightRange = 0;
 
     [SerializeField] 
-    private  GameObject _pipe;
+    private  GameObject[] _pipes;
 
     private float _timer;
 
@@ -31,7 +31,8 @@ public class PipeSpawner : MonoBehaviour
     
     private void SpawnPipe(){
         Vector3 spawnPos = transform.position + new Vector3(0, Random.Range(-_heightRange, _heightRange));
-        GameObject pipe = Instantiate(_pipe, spawnPos, Quaternion.identity);
+        int randomPipeIndex = Random.Range(0, _pipes.Length);
+        GameObject pipe = Instantiate(_pipes[randomPipeIndex], spawnPos, Quaternion.identity);
         
         Destroy(pipe, 15f);
         

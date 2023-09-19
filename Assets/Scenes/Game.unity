@@ -322,9 +322,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3a0c42ea693994180e4b4d9f676a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxTime: 2.5
+  _maxTime: 3
   _heightRange: 0.45
-  _pipe: {fileID: 3359347449781989378, guid: f0833f170f993464eb1d82997ec1b717, type: 3}
+  _pipes:
+  - {fileID: 3359347449781989378, guid: 050198227181bb54b96c58c9cd759a29, type: 3}
+  - {fileID: 3359347449781989378, guid: 9e376c8e88a835e42a9221c6418aac9b, type: 3}
+  - {fileID: 3359347449781989378, guid: a7f4123e0062d4c46898adab03b51521, type: 3}
 --- !u!1 &857370999
 GameObject:
   m_ObjectHideFlags: 0

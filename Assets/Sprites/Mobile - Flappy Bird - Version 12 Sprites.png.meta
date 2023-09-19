@@ -425,7 +425,7 @@ TextureImporter:
         width: 168
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -455,6 +455,7 @@ TextureImporter:
       Mobile - Flappy Bird - Version 12 Sprites_12: -599403472
       Mobile - Flappy Bird - Version 12 Sprites_13: 458493236
       Mobile - Flappy Bird - Version 12 Sprites_14: 1721633722
+      Mobile - Flappy Bird - Version 12 Sprites_15: -74125240
       Mobile - Flappy Bird - Version 12 Sprites_2: 108867231
       Mobile - Flappy Bird - Version 12 Sprites_3: -128444502
       Mobile - Flappy Bird - Version 12 Sprites_4: 721519152
