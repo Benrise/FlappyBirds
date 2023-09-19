@@ -117,14 +117,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player") && !_isDead){
+            
+            if (other.gameObject.CompareTag("Pipe")){
+                HitPlayer();
+                StartCoroutine(PipeCollision(2f));
+            }
+
             if (_player.Lives == 0 || other.gameObject.CompareTag("Ground")) {
                 KillPlayer();
             }
-        }
-        if (other.gameObject.CompareTag("Pipe") && !_isDead){
-            HitPlayer();
-            StartCoroutine(PipeCollision(2f));
-        }    
+        }   
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -176,6 +178,7 @@ public class PlayerController : MonoBehaviour
         _isDead = true;
         CheckForLivingPlayers();
         healthDisplay.EraseLives();
+        GetComponent<Collider2D>().isTrigger = false;
     }
 
     private void HitPlayer(){
