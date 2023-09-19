@@ -2128,6 +2128,10 @@ PrefabInstance:
       propertyPath: _currentScoreText
       value: 
       objectReference: {fileID: 2940529183417933903}
+    - target: {fileID: 1239046555705739080, guid: 8005acee66c1ae545aa5039bc87f2a65, type: 3}
+      propertyPath: redPlayerMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 3d81d56d3ad35784097dc4808032437e, type: 2}
     - target: {fileID: 2471095352127289363, guid: 8005acee66c1ae545aa5039bc87f2a65, type: 3}
       propertyPath: m_Name
       value: Bird

@@ -59,8 +59,8 @@ public class PlayerController : MonoBehaviour
     public Material redPlayerMaterial;
 
     private SpriteRenderer _spriteRenderer;
+
     private Material _defaultMaterial;
-    private GameObject _birdObject;
 
     private void Awake(){
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
@@ -74,8 +74,7 @@ public class PlayerController : MonoBehaviour
         _player = PlayerConfigurationManager.Instance.playerConfigs[_playerInput.playerIndex];
         healthDisplay.maxHealth = _player.Lives;
 
-        _birdObject = transform.Find("Bird").gameObject;
-        _spriteRenderer = _birdObject.GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _defaultMaterial = _spriteRenderer.material;
     }
 
@@ -104,7 +103,6 @@ public class PlayerController : MonoBehaviour
             _hitSound.Play();
             _player.Lives--;
             healthDisplay.TakeDamage();
-            Debug.Log(_player.Lives);
             _spriteRenderer.material = redPlayerMaterial;
             StartCoroutine(RestorePlayerColor());
             if (_player.Lives == 0) {
@@ -156,7 +154,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RestorePlayerColor()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.2f);
 
         _spriteRenderer.material = _defaultMaterial;
     }
