@@ -11,6 +11,7 @@ TagManager:
   - HealthBuff
   - EnergyBuff
   - Poop
+  - SpeedBuff
   layers:
   - Default
   - TransparentFX

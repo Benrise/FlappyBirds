@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour
     private AudioSource _speedSound;
 
     [SerializeField]
+    private AudioSource _energizerSound;
+
+    [SerializeField]
     private Sprite _deadBirdSprite;
 
     [SerializeField]
@@ -77,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     public Material shieldPlayerMaterial;
 
+    public Material energizerPlayerMaterial;
+
     private SpriteRenderer _spriteRenderer;
 
     private Material _defaultMaterial;
@@ -84,6 +89,10 @@ public class PlayerController : MonoBehaviour
     private bool _isShieldActive = false;
     private float _shieldDuration = 6f;
     private float _shieldTimer = 0f;
+
+    private bool _isEnergizerActive = false;
+    private float _energizerDuration = 6f;
+    private float _energizerTimer = 0f;
 
     private void Awake(){
         Random.InitState((int)System.DateTime.Now.Ticks);
@@ -138,6 +147,15 @@ public class PlayerController : MonoBehaviour
                 DeactivateShield();
             }
         }
+
+        if (_isEnergizerActive)
+        {
+            _energizerTimer += Time.deltaTime;
+            if (_energizerTimer >= _energizerDuration)
+            {
+                DeactivateEnergizer();
+            }
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context){
@@ -176,6 +194,12 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("ShieldBuff") && !_isShieldActive)
         {
             ActivateShield();
+            Destroy(other.gameObject); 
+        }
+
+        if (other.gameObject.CompareTag("EnergyBuff") && !_isEnergizerActive)
+        {
+            ActivateEnergizer();
             Destroy(other.gameObject); 
         }
 
@@ -267,7 +291,30 @@ public class PlayerController : MonoBehaviour
         _isShieldActive = false;
         StopCoroutine(ShieldBlink());
         _spriteRenderer.material = _defaultMaterial; 
+    }   
+
+
+    private void ActivateEnergizer()
+    {
+        _isEnergizerActive = true;
+        _energizerTimer = 0f;
+        _energizerSound.Play(); 
+        _velocity = 3f;
+        _rb.gravityScale = 1f;
+        _rb.mass = 2f;
+        StartCoroutine(EnergizerBlink()); 
     }
+
+    private void DeactivateEnergizer()
+    {
+        _isEnergizerActive = false;
+        _velocity = 1.5f;
+        _rb.gravityScale = 0.65f;
+        _rb.mass = 1f;
+        StopCoroutine(EnergizerBlink()); 
+        _spriteRenderer.material = _defaultMaterial;
+    }
+
 
 
 
@@ -296,6 +343,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator EnergizerBlink()
+    {
+        while (_isEnergizerActive)
+        {
+            _spriteRenderer.material = energizerPlayerMaterial; 
+            yield return new WaitForSeconds(0.2f); 
+            _spriteRenderer.material = _defaultMaterial;
+            yield return new WaitForSeconds(0.2f); 
+        }
+    }
+
     private IEnumerator SpawnPoop()
     {
         while (true)
@@ -310,7 +368,6 @@ public class PlayerController : MonoBehaviour
             Destroy(poop, 3f);
 
         }
-        
     }
 }
 
