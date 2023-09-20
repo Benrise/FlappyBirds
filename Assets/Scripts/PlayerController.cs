@@ -181,34 +181,46 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("PipePoint")){
-            UpdateScore();
-            _pipeSound.Play();
+
+        if (!_isDead){
+            if (other.gameObject.CompareTag("PipePoint")){
+                UpdateScore();
+                _pipeSound.Play();
+            }
+
+            if (other.gameObject.CompareTag("HealthBuff")){
+                HealPlayer();
+                Destroy(other.gameObject);
+            }
+
+            if (other.gameObject.CompareTag("ShieldBuff") && !_isShieldActive)
+            {
+                ActivateShield();
+                Destroy(other.gameObject); 
+            }
+
+            if (other.gameObject.CompareTag("EnergyBuff") && !_isEnergizerActive)
+            {
+                ActivateEnergizer();
+                Destroy(other.gameObject); 
+            }
+
+            if (other.gameObject.CompareTag("SpeedBuff"))
+            {
+                if (_player.SpeedBuffs > 0){
+                    ActivateSpeed();
+                    Destroy(other.gameObject); 
+                }
+            }
+
+            if (other.gameObject.CompareTag("Poop")){
+                HitPlayer();
+                Destroy(other.gameObject);
+                if (_player.Lives == 0)
+                    KillPlayer();
+            }
         }
 
-        if (other.gameObject.CompareTag("HealthBuff") && !_isDead){
-            HealPlayer();
-            Destroy(other.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("ShieldBuff") && !_isShieldActive)
-        {
-            ActivateShield();
-            Destroy(other.gameObject); 
-        }
-
-        if (other.gameObject.CompareTag("EnergyBuff") && !_isEnergizerActive)
-        {
-            ActivateEnergizer();
-            Destroy(other.gameObject); 
-        }
-
-        if (other.gameObject.CompareTag("Poop")){
-            HitPlayer();
-            Destroy(other.gameObject);
-            if (_player.Lives == 0)
-                KillPlayer();
-        }
     }
 
     private void UpdateScore(){
@@ -265,6 +277,9 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(RestorePlayerColor());
             _player.Lives -= 1;
             healthDisplay.TakeDamage();
+            Vector2 currentPosition = _rb.position;
+            Vector2 newPosition = new Vector2(currentPosition.x - 0.2f, currentPosition.y);
+            _rb.MovePosition(newPosition);
         }
     }
 
@@ -299,9 +314,9 @@ public class PlayerController : MonoBehaviour
         _isEnergizerActive = true;
         _energizerTimer = 0f;
         _energizerSound.Play(); 
-        _velocity = 3f;
-        _rb.gravityScale = 1f;
-        _rb.mass = 2f;
+        // _velocity = 3f;
+        // _rb.gravityScale = 1f;
+        // _rb.mass = 2f;
         StartCoroutine(EnergizerBlink()); 
     }
 
@@ -315,8 +330,15 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer.material = _defaultMaterial;
     }
 
-
-
+    private void ActivateSpeed()
+    {   
+        _speedSound.Play();
+        Vector2 currentPosition = _rb.position;
+        Vector2 newPosition = new Vector2(currentPosition.x + 1f, currentPosition.y);
+        _rb.MovePosition(newPosition);
+        _player.SpeedBuffs -= 1;
+    }
+    
 
     private IEnumerator RestorePlayerColor()
     {

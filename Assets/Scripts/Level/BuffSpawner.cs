@@ -22,6 +22,6 @@ public class BuffSpawner : MonoBehaviour
         
         GameObject buff = Instantiate(_buffs[randomBuffIndex], spawnPos, Quaternion.identity, transform.parent);
 
-        Destroy(buff, 15f);
+        Destroy(buff, 60f);
     }
 }
