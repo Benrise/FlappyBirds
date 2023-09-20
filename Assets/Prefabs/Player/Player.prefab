@@ -2873,7 +2873,7 @@ GameObject:
   - component: {fileID: 6119962954730912449}
   - component: {fileID: 8730264227875273044}
   m_Layer: 0
-  m_Name: speedSound
+  m_Name: warpSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3266,6 +3266,10 @@ PrefabInstance:
       propertyPath: _scoreText
       value: 
       objectReference: {fileID: 2940529183417933903}
+    - target: {fileID: 1239046555705739080, guid: 8005acee66c1ae545aa5039bc87f2a65, type: 3}
+      propertyPath: _warpSound
+      value: 
+      objectReference: {fileID: 8730264227875273044}
     - target: {fileID: 1239046555705739080, guid: 8005acee66c1ae545aa5039bc87f2a65, type: 3}
       propertyPath: _wingSound
       value: 

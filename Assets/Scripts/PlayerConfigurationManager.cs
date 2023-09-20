@@ -68,7 +68,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 
 public class PlayerConfiguration
 {
-    public PlayerConfiguration(int idx, Sprite playerBirdSprite, RuntimeAnimatorController playerBirdSpriteAnimation, int maxLives = 3, int speedBuffs = 3)
+    public PlayerConfiguration(int idx, Sprite playerBirdSprite, RuntimeAnimatorController playerBirdSpriteAnimation, int maxLives = 3, int warpBuffs = 3)
     {
         PlayerIndex = idx;
         PlayerBirdSprite = playerBirdSprite;
@@ -76,14 +76,14 @@ public class PlayerConfiguration
         isAlive = true;
         MaxLives = maxLives;
         Lives = maxLives;
-        SpeedBuffs = speedBuffs;
+        WarpBuffs = warpBuffs;
     }
 
     public int Lives { get; set; }
 
     public int Points { get; set; }
 
-    public int SpeedBuffs { get; set; }
+    public int WarpBuffs { get; set; }
 
     public int MaxLives { get; set; }
 

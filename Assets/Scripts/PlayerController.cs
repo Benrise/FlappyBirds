@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource _shieldSound;
 
     [SerializeField]
-    private AudioSource _speedSound;
+    private AudioSource _warpSound;
 
     [SerializeField]
     private AudioSource _energizerSound;
@@ -264,10 +264,10 @@ public class PlayerController : MonoBehaviour
                 Destroy(other.gameObject); 
             }
 
-            if (other.gameObject.CompareTag("SpeedBuff"))
+            if (other.gameObject.CompareTag("WarpBuff"))
             {
-                if (_player.SpeedBuffs > 0){
-                    ActivateSpeed();
+                if (_player.WarpBuffs > 0){
+                    ActivateWarp();
                     Destroy(other.gameObject); 
                 }
             }
@@ -330,6 +330,7 @@ public class PlayerController : MonoBehaviour
             _spriteRenderer.material = damagePlayerMaterial;
             StartCoroutine(RestorePlayerColor());
             _player.Lives -= 1;
+            _player.WarpBuffs += 1;
             healthDisplay.TakeDamage();
             Vector2 currentPosition = _rb.position;
             Vector2 newPosition = new Vector2(currentPosition.x - 0.2f, currentPosition.y);
@@ -408,13 +409,13 @@ public class PlayerController : MonoBehaviour
         _isAmogusActive = false;
     }
 
-    private void ActivateSpeed()
+    private void ActivateWarp()
     {   
-        _speedSound.Play();
+        _warpSound.Play();
         Vector2 currentPosition = _rb.position;
         Vector2 newPosition = new Vector2(currentPosition.x + 0.2f, currentPosition.y);
         _rb.MovePosition(newPosition);
-        _player.SpeedBuffs -= 1;
+        _player.WarpBuffs -= 1;
     }
 
     private IEnumerator RestorePlayerColor()
