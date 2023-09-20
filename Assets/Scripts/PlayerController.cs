@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
 
     private Material _defaultMaterial;
 
+    private float _distanceToReduceWarp = 0;
+
     private GameObject[] _players;
 
     private int _playerLayer;
@@ -330,7 +332,11 @@ public class PlayerController : MonoBehaviour
             _spriteRenderer.material = damagePlayerMaterial;
             StartCoroutine(RestorePlayerColor());
             _player.Lives -= 1;
-            _player.WarpBuffs += 1;
+            _distanceToReduceWarp += 0.2f
+            if (_distanceToReduceWarp >= 1){
+                _player.WarpBuffs += 1;
+                _distanceToReduceWarp = 0;
+            }
             healthDisplay.TakeDamage();
             Vector2 currentPosition = _rb.position;
             Vector2 newPosition = new Vector2(currentPosition.x - 0.2f, currentPosition.y);
@@ -413,8 +419,9 @@ public class PlayerController : MonoBehaviour
     {   
         _warpSound.Play();
         Vector2 currentPosition = _rb.position;
-        Vector2 newPosition = new Vector2(currentPosition.x + 0.2f, currentPosition.y);
+        Vector2 newPosition = new Vector2(currentPosition.x + 1f, currentPosition.y);
         _rb.MovePosition(newPosition);
+        _distanceToReduceWarp = 0;
         _player.WarpBuffs -= 1;
     }
 
