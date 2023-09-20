@@ -8,7 +8,7 @@ public class LoopGround : MonoBehaviour
     private float _speed = 1f;
 
     [SerializeField]
-    private float _width = 6f;
+    private float _width = 100f;
 
     private SpriteRenderer _spriteRenederer;
 

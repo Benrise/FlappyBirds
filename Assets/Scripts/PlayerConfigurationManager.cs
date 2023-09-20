@@ -81,6 +81,8 @@ public class PlayerConfiguration
 
     public int Lives { get; set; }
 
+    public int Points { get; set; }
+
     public int SpeedBuffs { get; set; }
 
     public int MaxLives { get; set; }

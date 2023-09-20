@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
 
     private Material _defaultMaterial;
 
+    private PlayerConfiguration _winner;
+
     private bool _isShieldActive = false;
     private float _shieldDuration = 6f;
     private float _shieldTimer = 0f;
@@ -184,6 +186,7 @@ public class PlayerController : MonoBehaviour
 
         if (!_isDead){
             if (other.gameObject.CompareTag("PipePoint")){
+                _player.Points += 1;
                 UpdateScore();
                 _pipeSound.Play();
             }
@@ -247,6 +250,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         _endGameMenu.SetActive(true);
+        
     }
 
     private void KillPlayer(bool killedByHawk = false){
@@ -314,9 +318,9 @@ public class PlayerController : MonoBehaviour
         _isEnergizerActive = true;
         _energizerTimer = 0f;
         _energizerSound.Play(); 
-        // _velocity = 3f;
-        // _rb.gravityScale = 1f;
-        // _rb.mass = 2f;
+        _velocity = 1.7f;
+        _rb.gravityScale = 0.8f;
+        _rb.mass = 1f;
         StartCoroutine(EnergizerBlink()); 
     }
 
