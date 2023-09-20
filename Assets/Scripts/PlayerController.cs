@@ -230,31 +230,13 @@ public class PlayerController : MonoBehaviour
                 KillPlayer();
             }
 
-            if (other.gameObject.CompareTag("Amogus")){
+            if (other.gameObject.CompareTag("Amogus") && !_isAmogusActive){
                 ActivateAmogus();
                 Destroy(other.gameObject);
             }
         }
     }
 
-    private void ActivateAmogus()
-    {
-        _isAmogusActive = true;
-        _amogusCooldown.SetActive(true);
-        _amogusSound.Play();
-        foreach (var player in _players)
-        {
-            player.GetComponent<Animator>().runtimeAnimatorController = _player.PlayerBirdSpriteAnimation;
-            player.GetComponent<SpriteRenderer>().sprite = _player.PlayerBirdSprite;
-        }
-        StartCoroutine(RestoreOriginalPlayerBirdSprites(_amogusDuration));
-    }
-
-    private void DeactivateAmogus()
-    {
-        _isAmogusActive = false;
-        _amogusCooldown.SetActive(false);
-    }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (!_isDead){
@@ -321,13 +303,6 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(OpenEndGameMenu());
     }
 
-    private IEnumerator OpenEndGameMenu()
-    {
-        yield return new WaitForSeconds(3f);
-        _endGameMenu.SetActive(true);
-        
-    }
-
     private void KillPlayer(bool killedByHawk = false){
         if (killedByHawk){
             _hawkSound.Play();
@@ -337,7 +312,7 @@ public class PlayerController : MonoBehaviour
             _deathSound.Play();
         }
         DeactivateShield();
-            DeactivateEnergizer();
+         DeactivateEnergizer();
         GetComponent<Animator>().enabled = false;
         GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
         _player.isAlive = false;
@@ -413,6 +388,26 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer.material = _defaultMaterial;
     }
 
+    private void ActivateAmogus()
+    {
+        _amogusCooldown.SetActive(true);
+        _isAmogusActive = true;
+        _amogusSound.Play();
+        _amogusTimer = 0f;
+        foreach (var player in _players)
+        {
+            player.GetComponent<Animator>().runtimeAnimatorController = _player.PlayerBirdSpriteAnimation;
+            player.GetComponent<SpriteRenderer>().sprite = _player.PlayerBirdSprite;
+        }
+        StartCoroutine(RestoreOriginalPlayerBirdSprites(_amogusDuration));
+    }
+
+    private void DeactivateAmogus()
+    {
+        _amogusCooldown.SetActive(false);
+        _isAmogusActive = false;
+    }
+
     private void ActivateSpeed()
     {   
         _speedSound.Play();
@@ -479,6 +474,13 @@ public class PlayerController : MonoBehaviour
             Destroy(poop, 3f);
 
         }
+    }
+
+    private IEnumerator OpenEndGameMenu()
+    {
+        yield return new WaitForSeconds(3f);
+        _endGameMenu.SetActive(true);
+        
     }
 }
 
