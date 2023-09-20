@@ -838,6 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66f9e380f3d43f41867662a8ac42e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerBirdPrefab: {fileID: 795549719667132794, guid: ba5f1033cfc03ad4a9c0bd1ef7a4d06f, type: 3}
 --- !u!81 &1532944145
 AudioListener:
   m_ObjectHideFlags: 0

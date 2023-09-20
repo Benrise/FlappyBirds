@@ -201,7 +201,7 @@ Animator:
   m_GameObject: {fileID: 2471095352127289363}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fd7471e65d9b00240a6ea1f25a818c49, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -294,8 +294,16 @@ MonoBehaviour:
   _hitSound: {fileID: 0}
   _deathSound: {fileID: 0}
   _hawkSound: {fileID: 0}
+  _healSound: {fileID: 0}
+  _shieldSound: {fileID: 0}
+  _speedSound: {fileID: 0}
+  _energizerSound: {fileID: 0}
   _deadBirdSprite: {fileID: 0}
   _gameOverPanel: {fileID: 0}
+  _poopPrefab: {fileID: 0}
   _playerNumber: {fileID: 0}
   healthDisplay: {fileID: 0}
-  redPlayerMaterial: {fileID: 0}
+  damagePlayerMaterial: {fileID: 0}
+  healPlayerMaterial: {fileID: 0}
+  shieldPlayerMaterial: {fileID: 0}
+  energizerPlayerMaterial: {fileID: 0}

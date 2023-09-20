@@ -9,7 +9,10 @@ public class PlayerSetupMenuController : MonoBehaviour
     private Button[] addPlayerButtons;
 
     [SerializeField]
-    private GameObject[] playerBirdPrefabs;
+    private Sprite[] playerBirdSprites;
+
+    [SerializeField]
+    private RuntimeAnimatorController[] playerBirdSpriteAnimations;
 
     [SerializeField]
     private int playersMaxHP = 3;
@@ -20,11 +23,11 @@ public class PlayerSetupMenuController : MonoBehaviour
         {
             int index = i;
             Button addButton = addPlayerButtons[i];
-            addButton.onClick.AddListener(() => TogglePlayer(index, playerBirdPrefabs[index], addButton));
+            addButton.onClick.AddListener(() => TogglePlayer(index, playerBirdSprites[index], playerBirdSpriteAnimations[index], addButton));
         }
     }
 
-    private void TogglePlayer(int playerIndex, GameObject playerBirdPrefab, Button button)
+    private void TogglePlayer(int playerIndex, Sprite playerBirdSprite, RuntimeAnimatorController playerBirdAnimation, Button button)
     {
         PlayerConfigurationManager configManager = PlayerConfigurationManager.Instance;
 
@@ -40,7 +43,7 @@ public class PlayerSetupMenuController : MonoBehaviour
             }
             else
             {
-                configManager.AddPlayerConfiguration(new PlayerConfiguration(playerIndex, playerBirdPrefab, playersMaxHP));
+                configManager.AddPlayerConfiguration(new PlayerConfiguration(playerIndex, playerBirdSprite, playerBirdAnimation, playersMaxHP));
                 button.GetComponent<Image>().color = Color.grey;
 
             }
