@@ -45,6 +45,9 @@ public class PlayerController : MonoBehaviour
     private AudioSource _energizerSound;
 
     [SerializeField]
+    private AudioSource _amogusSound;
+
+    [SerializeField]
     private Sprite _deadBirdSprite;
 
     [SerializeField]
@@ -55,6 +58,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private TMP_Text _playerNumber;
+
+    [SerializeField]
+    private GameObject _shieldCooldown;
+
+    [SerializeField]
+    private GameObject _energizerCooldown;
+
+    [SerializeField]
+    private GameObject _amogusCooldown;
 
     private int _score;
 
@@ -86,7 +98,7 @@ public class PlayerController : MonoBehaviour
 
     private Material _defaultMaterial;
 
-    private PlayerConfiguration _winner;
+    private GameObject[] _players;
 
     private int _playerLayer;
 
@@ -97,6 +109,12 @@ public class PlayerController : MonoBehaviour
     private bool _isEnergizerActive = false;
     private float _energizerDuration = 6f;
     private float _energizerTimer = 0f;
+
+    private bool _isAmogusActive = false;
+    private float _amogusDuration = 6f;
+    private float _amogusTimer = 0f;
+
+
 
     private void Awake(){
         Random.InitState((int)System.DateTime.Now.Ticks);
@@ -109,9 +127,14 @@ public class PlayerController : MonoBehaviour
         _playerNumber.text = _playerInput.playerIndex.ToString();
         _player = PlayerConfigurationManager.Instance.playerConfigs[_playerInput.playerIndex];
         healthDisplay.maxHealth = _player.Lives;
+        
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _defaultMaterial = _spriteRenderer.material;
+
+        _energizerCooldown.SetActive(false);
+        _shieldCooldown.SetActive(false);
+        _amogusCooldown.SetActive(false);
 
     }
 
@@ -119,13 +142,15 @@ public class PlayerController : MonoBehaviour
         _endGameMenu.SetActive(false);
         StartCoroutine(SpawnPoop());
         _playerLayer = LayerMask.NameToLayer($"Player{_playerInput.playerIndex}Layer");
+        _players = GameObject.FindGameObjectsWithTag("Player");;
     }
 
     private void Update(){
         if (_jumped){
             _rb.velocity = Vector2.up * _velocity;
             _wingSound.Play();
-            _jumped = false;
+            if (!_isEnergizerActive)
+                _jumped = false;
         }
 
         if (transform.position.y < -10f)
@@ -146,6 +171,10 @@ public class PlayerController : MonoBehaviour
         {
             _shieldTimer += Time.deltaTime;
 
+            float remainingTime = Mathf.Max(0f, _shieldDuration - _shieldTimer);
+            float fillAmount = remainingTime / _shieldDuration;
+            
+            _shieldCooldown.GetComponent<Image>().fillAmount = fillAmount;
             if (_shieldTimer >= _shieldDuration)
             {
                 DeactivateShield();
@@ -155,11 +184,30 @@ public class PlayerController : MonoBehaviour
         if (_isEnergizerActive)
         {
             _energizerTimer += Time.deltaTime;
+
+            float remainingTime = Mathf.Max(0f, _energizerDuration - _energizerTimer);
+            float fillAmount = remainingTime / _energizerDuration;
+            _energizerCooldown.GetComponent<Image>().fillAmount = fillAmount;
             if (_energizerTimer >= _energizerDuration)
             {
                 DeactivateEnergizer();
             }
-        }
+        }  
+
+        if (_isAmogusActive)
+        {
+            _amogusTimer += Time.deltaTime;
+
+            float remainingTime = Mathf.Max(0f, _amogusDuration - _amogusTimer);
+            float fillAmount = remainingTime / _amogusDuration;
+            _amogusCooldown.GetComponent<Image>().fillAmount = fillAmount;
+
+            if (_amogusTimer >= _amogusDuration)
+            {
+                DeactivateAmogus();
+            }
+        } 
+         
     }
 
     public void OnJump(InputAction.CallbackContext context){
@@ -167,7 +215,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate(){
-        transform.rotation = Quaternion.Euler(0, 0, _rb.velocity.y * _rotationSpeed); 
+        transform.rotation = Quaternion.Euler(0, 0, _rb.velocity.y * _rotationSpeed);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
@@ -181,11 +229,34 @@ public class PlayerController : MonoBehaviour
             if (_player.Lives == 0 || other.gameObject.CompareTag("Ground")) {
                 KillPlayer();
             }
-        }   
+
+            if (other.gameObject.CompareTag("Amogus")){
+                ActivateAmogus();
+                Destroy(other.gameObject);
+            }
+        }
+    }
+
+    private void ActivateAmogus()
+    {
+        _isAmogusActive = true;
+        _amogusCooldown.SetActive(true);
+        _amogusSound.Play();
+        foreach (var player in _players)
+        {
+            player.GetComponent<Animator>().runtimeAnimatorController = _player.PlayerBirdSpriteAnimation;
+            player.GetComponent<SpriteRenderer>().sprite = _player.PlayerBirdSprite;
+        }
+        StartCoroutine(RestoreOriginalPlayerBirdSprites(_amogusDuration));
+    }
+
+    private void DeactivateAmogus()
+    {
+        _isAmogusActive = false;
+        _amogusCooldown.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-
         if (!_isDead){
             if (other.gameObject.CompareTag("PipePoint")){
                 _player.Points += 1;
@@ -195,7 +266,8 @@ public class PlayerController : MonoBehaviour
 
             if (other.gameObject.CompareTag("HealthBuff")){
                 HealPlayer();
-                Destroy(other.gameObject);
+                if (_player.Lives != _player.MaxLives)
+                    Destroy(other.gameObject);
             }
 
             if (other.gameObject.CompareTag("ShieldBuff") && !_isShieldActive)
@@ -258,14 +330,14 @@ public class PlayerController : MonoBehaviour
 
     private void KillPlayer(bool killedByHawk = false){
         if (killedByHawk){
-            DeactivateShield();
             _hawkSound.Play();
         }
         else{
-            DeactivateShield();
             _hitSound.Play();
             _deathSound.Play();
         }
+        DeactivateShield();
+            DeactivateEnergizer();
         GetComponent<Animator>().enabled = false;
         GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
         _player.isAlive = false;
@@ -291,17 +363,18 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HealPlayer(){
-        _healSound.Play();
-        _spriteRenderer.material = healPlayerMaterial;
-        StartCoroutine(RestorePlayerColor());
         if (_player.Lives != _player.MaxLives){
             _player.Lives += 1;
             healthDisplay.Heal();
+            _healSound.Play();
+            _spriteRenderer.material = healPlayerMaterial;
+            StartCoroutine(RestorePlayerColor());
         }
     }
 
     private void ActivateShield()
     {
+        _shieldCooldown.SetActive(true);
         _isShieldActive = true;
         _shieldTimer = 0f;
         _shieldSound.Play();
@@ -310,6 +383,7 @@ public class PlayerController : MonoBehaviour
 
     private void DeactivateShield()
     {
+        _shieldCooldown.SetActive(false);
         _isShieldActive = false;
         StopCoroutine(ShieldBlink());
         _spriteRenderer.material = _defaultMaterial; 
@@ -318,17 +392,19 @@ public class PlayerController : MonoBehaviour
 
     private void ActivateEnergizer()
     {
+        _energizerCooldown.SetActive(true);
         _isEnergizerActive = true;
         _energizerTimer = 0f;
         _energizerSound.Play(); 
-        _velocity = 1.7f;
+        _velocity = 1.4f;
         _rb.gravityScale = 0.8f;
-        _rb.mass = 1f;
+        _rb.mass = 0.9f;
         StartCoroutine(EnergizerBlink()); 
     }
 
     private void DeactivateEnergizer()
     {
+        _energizerCooldown.SetActive(false);
         _isEnergizerActive = false;
         _velocity = 1.5f;
         _rb.gravityScale = 0.65f;
@@ -345,7 +421,6 @@ public class PlayerController : MonoBehaviour
         _rb.MovePosition(newPosition);
         _player.SpeedBuffs -= 1;
     }
-    
 
     private IEnumerator RestorePlayerColor()
     {
@@ -369,6 +444,15 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.2f); 
             _spriteRenderer.material = _defaultMaterial; 
             yield return new WaitForSeconds(0.2f); 
+        }
+    }
+
+    private IEnumerator RestoreOriginalPlayerBirdSprites(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        foreach (var playerConfig in PlayerConfigurationManager.Instance.playerConfigs){
+            GetComponent<Animator>().runtimeAnimatorController = playerConfig.PlayerBirdSpriteAnimation;
+            GetComponent<SpriteRenderer>().sprite = playerConfig.PlayerBirdSprite;
         }
     }
 

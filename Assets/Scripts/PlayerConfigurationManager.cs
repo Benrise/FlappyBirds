@@ -28,7 +28,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             _startButton.onClick.AddListener(LoadGameScene);
         }
 
-        UpdateStartButtonInteractability(); 
+        UpdateStartButtonInteractability();
     }
 
     public void UpdateStartButtonInteractability()

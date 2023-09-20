@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1239046555705739080}
   m_Layer: 0
   m_Name: Bird
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -298,10 +298,14 @@ MonoBehaviour:
   _shieldSound: {fileID: 0}
   _speedSound: {fileID: 0}
   _energizerSound: {fileID: 0}
+  _amogusSound: {fileID: 0}
   _deadBirdSprite: {fileID: 0}
   _gameOverPanel: {fileID: 0}
   _poopPrefab: {fileID: 0}
   _playerNumber: {fileID: 0}
+  _shieldCooldown: {fileID: 0}
+  _energizerCooldown: {fileID: 0}
+  _amogusCooldown: {fileID: 0}
   healthDisplay: {fileID: 0}
   damagePlayerMaterial: {fileID: 0}
   healPlayerMaterial: {fileID: 0}
