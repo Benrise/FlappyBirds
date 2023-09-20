@@ -412,7 +412,7 @@ public class PlayerController : MonoBehaviour
     {   
         _speedSound.Play();
         Vector2 currentPosition = _rb.position;
-        Vector2 newPosition = new Vector2(currentPosition.x + 1f, currentPosition.y);
+        Vector2 newPosition = new Vector2(currentPosition.x + 0.2f, currentPosition.y);
         _rb.MovePosition(newPosition);
         _player.SpeedBuffs -= 1;
     }
