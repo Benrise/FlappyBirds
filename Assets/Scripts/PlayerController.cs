@@ -88,6 +88,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerConfiguration _winner;
 
+    private int _playerLayer;
+
     private bool _isShieldActive = false;
     private float _shieldDuration = 6f;
     private float _shieldTimer = 0f;
@@ -100,7 +102,6 @@ public class PlayerController : MonoBehaviour
         Random.InitState((int)System.DateTime.Now.Ticks);
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
         _controls = new PlayerControls();
-
         _rb = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
         _endGameMenu = GameObject.Find("EndGameMenu");
@@ -117,6 +118,7 @@ public class PlayerController : MonoBehaviour
     private void Start(){
         _endGameMenu.SetActive(false);
         StartCoroutine(SpawnPoop());
+        _playerLayer = LayerMask.NameToLayer($"Player{_playerInput.playerIndex}Layer");
     }
 
     private void Update(){
@@ -170,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player") && !_isDead){
-            
+
             if (other.gameObject.CompareTag("Pipe")){
                 HitPlayer();
                 StartCoroutine(PipeCollision(2f));
@@ -216,7 +218,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (other.gameObject.CompareTag("Poop")){
+            if (other.CompareTag("Poop") && other.gameObject.layer != _playerLayer)
+            {
                 HitPlayer();
                 Destroy(other.gameObject);
                 if (_player.Lives == 0)
@@ -387,10 +390,8 @@ public class PlayerController : MonoBehaviour
             float delay = Random.Range(3f, 10f);
             yield return new WaitForSeconds(delay);
 
-            Vector3 spawnPosition = transform.position;
-            spawnPosition.y -= 0.2f;
-            var poop = Instantiate(_poopPrefab, spawnPosition, Quaternion.identity);
-
+            var poop = Instantiate(_poopPrefab, transform.position, Quaternion.identity);
+            poop.layer = _playerLayer;
             Destroy(poop, 3f);
 
         }
