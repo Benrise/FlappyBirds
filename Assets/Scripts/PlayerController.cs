@@ -173,7 +173,6 @@ public class PlayerController : MonoBehaviour
         _rb.simulated = false;
 
         _jumpKey.text = _playerInput.currentActionMap["Jump"].GetBindingDisplayString(_player.PlayerIndex); // Если брать индекс из PlayerInput, то будет неправильная привязка отображение биндингов с игроком на экране
-        // _playerInput.camera.orthographicSize = 0.5f;
     }
 
     private void Update(){
@@ -361,6 +360,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateScore(){
         _score++;
         _scoreText.text = _score.ToString();
+        _player.Points += 1;
     }
 
     private void CheckForLivingPlayers(){
@@ -373,8 +373,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (livingPlayersCount == 0)
+        if (livingPlayersCount == 0){
             StartCoroutine(OpenEndGameMenu());
+        }
     }
 
     private void KillPlayer(bool killedByHawk = false){
@@ -535,6 +536,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     private IEnumerator EnergizerBlink()
     {
         while (_isEnergizerActive)
@@ -556,13 +558,14 @@ public class PlayerController : MonoBehaviour
             var poop = Instantiate(_poopPrefab, transform.position, Quaternion.identity);
             poop.layer = _playerLayer;
             Destroy(poop, 3f);
-
         }
     }
 
     private IEnumerator OpenEndGameMenu()
     {
         yield return new WaitForSeconds(3f);
+        DetermineWinner.Instance.winnerIndex.text = DetermineWinner.Instance.GetWinner().PlayerIndex.ToString();
+        DetermineWinner.Instance.winnerSprite.sprite = DetermineWinner.Instance.GetWinner().PlayerBirdSprite;
         _endGameMenu.SetActive(true);
         
     }
@@ -574,7 +577,6 @@ public class PlayerController : MonoBehaviour
         _statsPanel.SetActive(true);
         _rb.simulated = true;
         PipeSpawner.Instance.StartSpawn();
-        // _playerInput.camera.orthographicSize = 1f;
     }
 
     private IEnumerator DeactivatePlayerCamera(){
