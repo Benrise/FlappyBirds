@@ -165,7 +165,6 @@ public class PlayerController : MonoBehaviour
         _amogusCooldown.SetActive(false);
 
         _getReadyButton.onClick.AddListener(ToggleReady);
-
     }
 
     private void Start(){
@@ -174,7 +173,6 @@ public class PlayerController : MonoBehaviour
         _playerLayer = LayerMask.NameToLayer($"Player{_playerInput.playerIndex}Layer");
         _players = GameObject.FindGameObjectsWithTag("Player");
         _rb.simulated = false;
-
         _jumpKey.text = _playerInput.currentActionMap["Jump"].GetBindingDisplayString(_player.PlayerIndex); // Если брать индекс из PlayerInput, то будет неправильная привязка отображение биндингов с игроком на экране
     }
 
@@ -371,7 +369,6 @@ public class PlayerController : MonoBehaviour
     private void UpdateScore(){
         _score++;
         _scoreText.text = _score.ToString();
-        _player.Points += 1;
     }
 
     private void CheckForLivingPlayers(){
@@ -576,8 +573,13 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         DetermineWinner.Instance.winnerIndex.text = DetermineWinner.Instance.GetWinner().PlayerIndex.ToString();
+        DetermineWinner.Instance.score.text = DetermineWinner.Instance.GetWinner().Points.ToString();
         DetermineWinner.Instance.winnerSprite.sprite = DetermineWinner.Instance.GetWinner().PlayerBirdSprite;
         _endGameMenu.SetActive(true);
+        foreach (var player in _players)
+        {
+            Destroy(player);
+        }
         
     }
 

@@ -9,19 +9,27 @@ public class DetermineWinner : MonoBehaviour
     public static DetermineWinner Instance { get; private set; }
 
     [SerializeField]
-    public TMP_Text winnerIndex;
-
-    [SerializeField]
     public Image winnerSprite;
 
     [SerializeField]
-    public Sprite defaultSprite;
+    public Sprite deadBirdSprite;
 
     [SerializeField]
-    public GameObject WinnerContainer;
+    public TMP_Text winnerIndex;
 
     [SerializeField]
-    public GameObject NoWinnerContainer;
+    public GameObject aboutWinnerTextContainer;
+
+    [SerializeField]
+    public GameObject noWinnerTextContainer;
+
+    [SerializeField]
+    public GameObject scoreContainer;
+
+    [SerializeField]
+    public TMP_Text score;
+
+
         
     private void Awake()
     {
@@ -45,11 +53,18 @@ public class DetermineWinner : MonoBehaviour
             }
         }
 
-        if (maxPoints == 0){
-           NoWinnerContainer.SetActive(true);
-           WinnerContainer.SetActive(false);
+        if (maxPoints == 0 && PlayerConfigurationManager.Instance.playerConfigs.Count != 1){
+            noWinnerTextContainer.SetActive(true);
+            winner.PlayerBirdSprite = deadBirdSprite;
+            scoreContainer.SetActive(false);
         }
+        else if (PlayerConfigurationManager.Instance.playerConfigs.Count != 1)
+        {
+            aboutWinnerTextContainer.SetActive(true);
+        }
+
         
+
         return winner;
     }
 }
