@@ -141,6 +141,9 @@ public class PlayerController : MonoBehaviour
 
     private Coroutine _startGameCoroutine;
 
+    private float ignoreInputTime = 2f;
+    private bool inputEnabled;
+
     private void Awake(){
         Random.InitState((int)System.DateTime.Now.Ticks);
         gameObject.name = $"Player {GetComponent<PlayerInput>().playerIndex.ToString()}";
@@ -176,6 +179,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update(){
+
+        if (Time.time > ignoreInputTime){
+            inputEnabled = true;
+        }
+
         if (_jumped){
             _rb.velocity = Vector2.up * _velocity;
             _wingSound.Play();
@@ -255,6 +263,11 @@ public class PlayerController : MonoBehaviour
     }
 
     public void OnJump(InputAction.CallbackContext context){
+        if (!inputEnabled) { return; }
+        if (_rb.simulated){
+            _jumped = context.action.triggered;
+            return;
+        }
         if (context.action.ReadValue<float>() == 1f) 
         {
             if (!_player.isReady){
@@ -269,8 +282,6 @@ public class PlayerController : MonoBehaviour
             _getReadyButton.image.color = _getReadyButton.colors.normalColor;
             ToggleReady();
         }
-        if (_rb.simulated)
-            _jumped = context.action.triggered;
     }
 
     public void ToggleReady(){
@@ -576,6 +587,7 @@ public class PlayerController : MonoBehaviour
         _getReadyPanel.SetActive(false);
         _statsPanel.SetActive(true);
         _rb.simulated = true;
+        _rb.velocity = Vector2.up * _velocity;
         PipeSpawner.Instance.StartSpawn();
     }
 

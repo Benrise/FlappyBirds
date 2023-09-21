@@ -3969,8 +3969,8 @@ MonoBehaviour:
   winnerIndex: {fileID: 1604577596}
   winnerSprite: {fileID: 1968414934}
   defaultSprite: {fileID: 0}
-  WinnerContainer: {fileID: 0}
-  NoWinnerContainer: {fileID: 0}
+  WinnerContainer: {fileID: 1712083569}
+  NoWinnerContainer: {fileID: 21400698}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
