@@ -198,6 +198,7 @@ public class PlayerController : MonoBehaviour
             if (!_isDead)
                 KillPlayer();
         }
+
         if (transform.position.y > 4f){
             if (!_isDead)
                 KillPlayer(killedByHawk: true);
@@ -330,9 +331,10 @@ public class PlayerController : MonoBehaviour
             }
 
             if (other.gameObject.CompareTag("HealthBuff")){
-                if (_player.Lives != _player.MaxLives)
+                if (_player.Lives != _player.MaxLives){
                     HealPlayer();
                     Destroy(other.gameObject);
+                }
             }
 
             if (other.gameObject.CompareTag("ShieldBuff") && !_isShieldActive)
