@@ -85,7 +85,6 @@ public class PlayerConfigurationManager : MonoBehaviour
         return false;
     }
 
-    
 }
 
 public class PlayerConfiguration

@@ -526,12 +526,15 @@ public class PlayerController : MonoBehaviour
     private IEnumerator RestoreOriginalPlayerBirdSprites(float delay)
     {
         yield return new WaitForSeconds(delay);
-        foreach (var playerConfig in PlayerConfigurationManager.Instance.playerConfigs){
-            GetComponent<Animator>().runtimeAnimatorController = playerConfig.PlayerBirdSpriteAnimation;
-            GetComponent<SpriteRenderer>().sprite = playerConfig.PlayerBirdSprite;
+        foreach (var player in _players)
+        {
+            var index = player.GetComponent<PlayerController>()._playerInput.playerIndex;
+            if (!player.GetComponent<PlayerController>()._isDead && player != null){
+                player.GetComponent<Animator>().runtimeAnimatorController = PlayerConfigurationManager.Instance.playerConfigs[index].PlayerBirdSpriteAnimation;
+                player.GetComponent<SpriteRenderer>().sprite = PlayerConfigurationManager.Instance.playerConfigs[index].PlayerBirdSprite;
+            }
         }
     }
-
     private IEnumerator EnergizerBlink()
     {
         while (_isEnergizerActive)
