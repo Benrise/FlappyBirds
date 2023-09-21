@@ -86,6 +86,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _statsPanel;
 
+    [SerializeField]
+    private TMP_Text _jumpKey;
+
     private int _score;
 
     private bool _jumped = false;
@@ -168,6 +171,9 @@ public class PlayerController : MonoBehaviour
         _playerLayer = LayerMask.NameToLayer($"Player{_playerInput.playerIndex}Layer");
         _players = GameObject.FindGameObjectsWithTag("Player");
         _rb.simulated = false;
+
+        _jumpKey.text = _playerInput.currentActionMap["Jump"].GetBindingDisplayString(_player.PlayerIndex); // Если брать индекс из PlayerInput, то будет неправильная привязка отображение биндингов с игроком на экране
+        // _playerInput.camera.orthographicSize = 0.5f;
     }
 
     private void Update(){
@@ -264,7 +270,8 @@ public class PlayerController : MonoBehaviour
             _getReadyButton.image.color = _getReadyButton.colors.normalColor;
             ToggleReady();
         }
-        _jumped = context.action.triggered;
+        if (_rb.simulated)
+            _jumped = context.action.triggered;
     }
 
     public void ToggleReady(){
@@ -558,15 +565,17 @@ public class PlayerController : MonoBehaviour
     }
 
     private IEnumerator StartGame(){
-        yield return new WaitForSeconds(3f);
+        int delayInSeconds = (_players.Length != 1) ? 3 : 0;
+        yield return new WaitForSeconds(delayInSeconds);
         _getReadyPanel.SetActive(false);
         _statsPanel.SetActive(true);
         _rb.simulated = true;
         PipeSpawner.Instance.StartSpawn();
+        // _playerInput.camera.orthographicSize = 1f;
     }
 
     private IEnumerator DeactivatePlayerCamera(){
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(30f);
         _playerInput.camera.enabled = false;
     }
 }
