@@ -10,7 +10,7 @@ public class EndGameSceneManager : MonoBehaviour
 
     public void RestartGameScene()
     {
-        PlayerConfigurationManager.Instance.readyPlayerCount = 0;
+        PlayerConfigurationManager.Instance.ResetAllPlayersStats();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

@@ -85,6 +85,14 @@ public class PlayerConfigurationManager : MonoBehaviour
         return false;
     }
 
+    public void ResetAllPlayersStats(){
+        readyPlayerCount = 0;
+        foreach (var playerConfiguration in playerConfigs)
+        {
+            playerConfiguration.ResetStats();
+        }
+    }
+
 }
 
 public class PlayerConfiguration
@@ -101,6 +109,14 @@ public class PlayerConfiguration
         WarpBuffs = warpBuffs;
     }
 
+    public void ResetStats(){
+        Lives = MaxLives;
+        Points = 0;
+        WarpBuffs = 3;
+        isAlive = true;
+        isReady = false;
+    }
+    
     public int Lives { get; set; }
 
     public int Points { get; set; }
