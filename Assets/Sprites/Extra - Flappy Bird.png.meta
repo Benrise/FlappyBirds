@@ -710,6 +710,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Extra - Flappy Bird_28
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 422
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c0ce27f8fbcfdf45bed4338b88f6ab4
+      internalID: 347983039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Extra - Flappy Bird_29
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 401
+        width: 92
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2866c93af91e5d43ade52c67aca469a
+      internalID: -1445424765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -742,6 +784,8 @@ TextureImporter:
       Extra - Flappy Bird_25: 21658007
       Extra - Flappy Bird_26: -1242018549
       Extra - Flappy Bird_27: 1639002761
+      Extra - Flappy Bird_28: 347983039
+      Extra - Flappy Bird_29: -1445424765
       Extra - Flappy Bird_3: -212363305
       Extra - Flappy Bird_4: 1170858840
       Extra - Flappy Bird_5: -1147065883

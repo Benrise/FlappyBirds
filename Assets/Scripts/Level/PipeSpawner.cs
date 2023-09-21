@@ -18,18 +18,34 @@ public class PipeSpawner : MonoBehaviour
 
     private float _timer;
 
-    private void Start()
+    private bool _spawnStarted = false;
+
+    public static PipeSpawner Instance { get; private set; }
+
+    private void Awake()
     {
-        Random.InitState((int)System.DateTime.Now.Ticks);
-        for (int i = 0; i < _initialPipeCount; i++)
+        if (Instance == null)
         {
-            SpawnPipe();
-            Vector3 currentPosition = transform.position;
-            currentPosition.x += 2f;
-            transform.position = currentPosition;
+            Instance = this;
         }
-        SpawnPipe();
-        StartCoroutine(StartPipeSpawning());
+    }
+
+    private void Start(){
+        Random.InitState((int)System.DateTime.Now.Ticks);
+    }
+
+    public void StartSpawn(){
+        if (!_spawnStarted){
+            for (int i = 0; i < _initialPipeCount; i++){
+                SpawnPipe();
+                Vector3 currentPosition = transform.position;
+                currentPosition.x += 2f;
+                transform.position = currentPosition;
+            }
+            SpawnPipe();
+            StartCoroutine(StartPipeSpawning());
+            _spawnStarted = true;
+        }
     }
 
     private IEnumerator StartPipeSpawning()

@@ -11,6 +11,10 @@ public class PlayerConfigurationManager : MonoBehaviour
 
     public static PlayerConfigurationManager Instance { get; private set; }
 
+    public int readyPlayerCount;
+
+
+
     [SerializeField]
     private Button _startButton;
 
@@ -64,6 +68,24 @@ public class PlayerConfigurationManager : MonoBehaviour
     {
         return playerConfigs.FirstOrDefault(config => config.PlayerIndex == playerIndex);
     }
+
+    public bool CheckForAllPlayersReady(){
+        readyPlayerCount = 0;
+
+        foreach (var playerConfiguration in playerConfigs)
+        {
+            if (playerConfiguration.isReady){
+                readyPlayerCount++;
+            }
+        }
+
+        if (readyPlayerCount == playerConfigs.Count)
+            return true;
+        
+        return false;
+    }
+
+    
 }
 
 public class PlayerConfiguration
@@ -74,6 +96,7 @@ public class PlayerConfiguration
         PlayerBirdSprite = playerBirdSprite;
         PlayerBirdSpriteAnimation = playerBirdSpriteAnimation;
         isAlive = true;
+        isReady = false;
         MaxLives = maxLives;
         Lives = maxLives;
         WarpBuffs = warpBuffs;
@@ -88,6 +111,8 @@ public class PlayerConfiguration
     public int MaxLives { get; set; }
 
     public bool isAlive { get; set; }
+
+    public bool isReady { get; set; }
 
     public int PlayerIndex { get; set; }
 

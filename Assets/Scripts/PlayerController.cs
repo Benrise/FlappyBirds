@@ -51,9 +51,6 @@ public class PlayerController : MonoBehaviour
     private Sprite _deadBirdSprite;
 
     [SerializeField]
-    private GameObject _gameOverPanel;
-
-    [SerializeField]
     private GameObject _poopPrefab;
 
     [SerializeField]
@@ -67,6 +64,27 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private GameObject _amogusCooldown;
+
+    [SerializeField]
+    private Sprite _getReadyGreenSprite;
+
+    [SerializeField]
+    private Sprite _getReadyOrangeSprite;
+
+    [SerializeField]
+    private Image _getReadyTitleImage;
+
+    [SerializeField]
+    private Button _getReadyButton;
+
+    [SerializeField]
+    private GameObject _gameOverPanel;
+
+    [SerializeField]
+    private GameObject _getReadyPanel;
+
+    [SerializeField]
+    private GameObject _statsPanel;
 
     private int _score;
 
@@ -102,6 +120,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject[] _players;
 
+    private bool _isGameStarted = false;
+
     private int _playerLayer;
 
     private bool _isShieldActive = false;
@@ -116,7 +136,7 @@ public class PlayerController : MonoBehaviour
     private float _amogusDuration = 6f;
     private float _amogusTimer = 0f;
 
-
+    private Coroutine _startGameCoroutine;
 
     private void Awake(){
         Random.InitState((int)System.DateTime.Now.Ticks);
@@ -138,13 +158,16 @@ public class PlayerController : MonoBehaviour
         _shieldCooldown.SetActive(false);
         _amogusCooldown.SetActive(false);
 
+        _getReadyButton.onClick.AddListener(ToggleReady);
+
     }
 
     private void Start(){
         _endGameMenu.SetActive(false);
         StartCoroutine(SpawnPoop());
         _playerLayer = LayerMask.NameToLayer($"Player{_playerInput.playerIndex}Layer");
-        _players = GameObject.FindGameObjectsWithTag("Player");;
+        _players = GameObject.FindGameObjectsWithTag("Player");
+        _rb.simulated = false;
     }
 
     private void Update(){
@@ -208,12 +231,55 @@ public class PlayerController : MonoBehaviour
             {
                 DeactivateAmogus();
             }
-        } 
-         
+        }
+
+        if (!_isGameStarted && (PlayerConfigurationManager.Instance.readyPlayerCount == _players.Length))
+        {
+            _isGameStarted = true; 
+            _startGameCoroutine = StartCoroutine(StartGame());
+        }
+        else if (_isGameStarted && (PlayerConfigurationManager.Instance.readyPlayerCount != _players.Length))
+        {
+            if (_startGameCoroutine != null)
+            {
+                StopCoroutine(_startGameCoroutine);
+                _startGameCoroutine = null; 
+            }
+            _isGameStarted = false;
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context){
+        if (context.action.ReadValue<float>() == 1f) 
+        {
+            if (!_player.isReady){
+                _getReadyButton.image.color = _getReadyButton.colors.pressedColor;
+            }
+            else {
+                _getReadyButton.image.color = new Color(115f / 255f, 115f / 255f, 115f / 255f);
+            }
+        }
+        else if (context.action.ReadValue<float>() == 0f) 
+        {
+            _getReadyButton.image.color = _getReadyButton.colors.normalColor;
+            ToggleReady();
+        }
         _jumped = context.action.triggered;
+    }
+
+    public void ToggleReady(){
+        _player.isReady = !_player.isReady;      
+        if (_player.isReady){
+            _getReadyTitleImage.sprite = _getReadyGreenSprite;
+            _getReadyButton.image.color = Color.grey;
+            _getReadyTitleImage.rectTransform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        }
+        else {
+            _getReadyTitleImage.sprite = _getReadyOrangeSprite;
+            _getReadyButton.image.color = _getReadyButton.colors.normalColor;
+            _getReadyTitleImage.rectTransform.localScale = Vector3.one;
+        }
+        PlayerConfigurationManager.Instance.CheckForAllPlayersReady();
     }
 
     private void FixedUpdate(){
@@ -290,8 +356,7 @@ public class PlayerController : MonoBehaviour
         _scoreText.text = _score.ToString();
     }
 
-    private void CheckForLivingPlayers()
-    {
+    private void CheckForLivingPlayers(){
         int livingPlayersCount = 0;
 
         foreach (var playerConfiguration in PlayerConfigurationManager.Instance.playerConfigs)
@@ -314,7 +379,7 @@ public class PlayerController : MonoBehaviour
             _deathSound.Play();
         }
         DeactivateShield();
-         DeactivateEnergizer();
+        DeactivateEnergizer();
         GetComponent<Animator>().enabled = false;
         GetComponent<SpriteRenderer>().sprite = _deadBirdSprite;
         _player.isAlive = false;
@@ -324,6 +389,7 @@ public class PlayerController : MonoBehaviour
         CheckForLivingPlayers();
         healthDisplay.EraseLives();
         GetComponent<Collider2D>().isTrigger = false;
+        StartCoroutine(DeactivatePlayerCamera());
     }
 
     private void HitPlayer(){
@@ -401,8 +467,10 @@ public class PlayerController : MonoBehaviour
         _amogusTimer = 0f;
         foreach (var player in _players)
         {
-            player.GetComponent<Animator>().runtimeAnimatorController = _player.PlayerBirdSpriteAnimation;
-            player.GetComponent<SpriteRenderer>().sprite = _player.PlayerBirdSprite;
+            if (!player.GetComponent<PlayerController>()._isDead && player != null){
+                player.GetComponent<Animator>().runtimeAnimatorController = _player.PlayerBirdSpriteAnimation;
+                player.GetComponent<SpriteRenderer>().sprite = _player.PlayerBirdSprite;
+            }
         }
         StartCoroutine(RestoreOriginalPlayerBirdSprites(_amogusDuration));
     }
@@ -487,6 +555,19 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(3f);
         _endGameMenu.SetActive(true);
         
+    }
+
+    private IEnumerator StartGame(){
+        yield return new WaitForSeconds(3f);
+        _getReadyPanel.SetActive(false);
+        _statsPanel.SetActive(true);
+        _rb.simulated = true;
+        PipeSpawner.Instance.StartSpawn();
+    }
+
+    private IEnumerator DeactivatePlayerCamera(){
+        yield return new WaitForSeconds(6f);
+        _playerInput.camera.enabled = false;
     }
 }
 

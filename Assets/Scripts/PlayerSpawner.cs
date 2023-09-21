@@ -52,8 +52,6 @@ public class PlayerSpawner : MonoBehaviour
     }
 
 
-
-
     public void HandlePlayerJoin(PlayerInput pi)
     {
         Debug.Log("Player " + pi.playerIndex + " joined, using " + pi.currentControlScheme);
