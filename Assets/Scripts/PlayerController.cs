@@ -249,8 +249,8 @@ public class PlayerController : MonoBehaviour
             }
 
             if (other.gameObject.CompareTag("HealthBuff")){
-                HealPlayer();
                 if (_player.Lives != _player.MaxLives)
+                    HealPlayer();
                     Destroy(other.gameObject);
             }
 
@@ -332,7 +332,7 @@ public class PlayerController : MonoBehaviour
             _spriteRenderer.material = damagePlayerMaterial;
             StartCoroutine(RestorePlayerColor());
             _player.Lives -= 1;
-            _distanceToReduceWarp += 0.2f
+            _distanceToReduceWarp += 0.2f;
             if (_distanceToReduceWarp >= 1){
                 _player.WarpBuffs += 1;
                 _distanceToReduceWarp = 0;
@@ -345,13 +345,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HealPlayer(){
-        if (_player.Lives != _player.MaxLives){
-            _player.Lives += 1;
-            healthDisplay.Heal();
-            _healSound.Play();
-            _spriteRenderer.material = healPlayerMaterial;
-            StartCoroutine(RestorePlayerColor());
-        }
+        _player.Lives += 1;
+        healthDisplay.Heal();
+        _healSound.Play();
+        _spriteRenderer.material = healPlayerMaterial;
+        StartCoroutine(RestorePlayerColor());
     }
 
     private void ActivateShield()
