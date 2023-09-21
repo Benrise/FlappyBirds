@@ -590,6 +590,7 @@ public class PlayerController : MonoBehaviour
         _statsPanel.SetActive(true);
         _rb.simulated = true;
         _rb.velocity = Vector2.up * _velocity;
+        _wingSound.Play();
         PipeSpawner.Instance.StartSpawn();
     }
 
